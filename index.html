@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Cyrex: Sector One</title>
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="cyrex-app">
+    <section class="cyrex-phone">
+      <header class="cyrex-hud">
+        <div>
+          <div class="cyrex-kicker">Mobile Prototype</div>
+          <h1>Cyrex</h1>
+        </div>
+
+        <div class="cyrex-hud-stats">
+          <div>Cr: <span id="credits">0</span></div>
+          <div>Threat: <span id="threat">Low</span></div>
+        </div>
+      </header>
+
+      <section class="cyrex-scene">
+        <div class="cyrex-skyline">
+          <div></div><div></div><div></div><div></div><div></div>
+          <div></div><div></div><div></div><div></div><div></div>
+        </div>
+
+        <div class="cyrex-scene-text">
+          <h2 id="sceneTitle">Lower Stack</h2>
+          <p id="sceneDesc">A rented room bolted to the side of Prima One. The city burns blue through dirty glass.</p>
+        </div>
+      </section>
+
+      <section class="cyrex-bars">
+        <div class="cyrex-bar">
+          <div><span>Health</span><span id="healthText">100%</span></div>
+          <meter id="healthMeter" value="100" min="0" max="100"></meter>
+        </div>
+
+        <div class="cyrex-bar">
+          <div><span>Humanity</span><span id="humanityText">100%</span></div>
+          <meter id="humanityMeter" value="100" min="0" max="100"></meter>
+        </div>
+      </section>
+
+      <section class="cyrex-log" id="log">
+        <p><strong>SYSTEM:</strong> Neural link unstable.</p>
+        <p><strong>MESSAGE:</strong> One unread contract offer waits on your wrist-com.</p>
+      </section>
+
+      <section class="cyrex-actions">
+        <button data-action="message">Check Message</button>
+        <button data-action="scan">Scan Room</button>
+        <button data-action="clinic">Visit Clinic</button>
+        <button data-action="outside">Look Outside</button>
+      </section>
+    </section>
+  </main>
+
+  <script src="game.js"></script>
+</body>
+</html>
