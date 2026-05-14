@@ -1,4 +1,7 @@
 const state = {
+  name: "Jax Veyr",
+  background: "Street Runner",
+  implant: "Clean Body",
   credits: 80,
   threat: "Low",
   health: 100,
@@ -6,6 +9,15 @@ const state = {
   hasMap: false
 };
 
+const createScreenEl = document.getElementById("createScreen");
+const gameScreenEl = document.getElementById("gameScreen");
+const startGameButtonEl = document.getElementById("startGameButton");
+
+const characterNameEl = document.getElementById("characterName");
+const backgroundEl = document.getElementById("background");
+const implantEl = document.getElementById("implant");
+
+const playerNameEl = document.getElementById("playerName");
 const creditsEl = document.getElementById("credits");
 const threatEl = document.getElementById("threat");
 const healthTextEl = document.getElementById("healthText");
@@ -16,7 +28,24 @@ const sceneTitleEl = document.getElementById("sceneTitle");
 const sceneDescEl = document.getElementById("sceneDesc");
 const logEl = document.getElementById("log");
 
+function getBackgroundLabel(value) {
+  if (value === "street-runner") return "Street Runner";
+  if (value === "ex-security") return "Ex-Security";
+  if (value === "clinic-debt") return "Clinic Debt";
+  if (value === "data-rat") return "Data Rat";
+  return "Street Runner";
+}
+
+function getImplantLabel(value) {
+  if (value === "clean") return "Clean Body";
+  if (value === "old-optic") return "Old Optic";
+  if (value === "nerve-splint") return "Nerve Splint";
+  if (value === "black-market-core") return "Black-Market Core";
+  return "Clean Body";
+}
+
 function updateUI() {
+  playerNameEl.textContent = state.name;
   creditsEl.textContent = state.credits;
   threatEl.textContent = state.threat;
 
@@ -51,6 +80,65 @@ function changeHumanity(amount) {
 
   if (state.humanity > 100) state.humanity = 100;
   if (state.humanity < 0) state.humanity = 0;
+}
+
+function startGame() {
+  state.name = characterNameEl.value.trim() || "Unnamed Citizen";
+  state.background = getBackgroundLabel(backgroundEl.value);
+  state.implant = getImplantLabel(implantEl.value);
+
+  state.credits = 80;
+  state.threat = "Low";
+  state.health = 100;
+  state.humanity = 100;
+  state.hasMap = false;
+
+  if (backgroundEl.value === "street-runner") {
+    state.credits += 20;
+  }
+
+  if (backgroundEl.value === "ex-security") {
+    state.credits += 40;
+    state.threat = "Medium";
+  }
+
+  if (backgroundEl.value === "clinic-debt") {
+    state.credits -= 20;
+    state.humanity -= 10;
+  }
+
+  if (backgroundEl.value === "data-rat") {
+    state.credits += 10;
+    state.hasMap = true;
+  }
+
+  if (implantEl.value === "old-optic") {
+    state.humanity -= 6;
+  }
+
+  if (implantEl.value === "nerve-splint") {
+    state.humanity -= 9;
+  }
+
+  if (implantEl.value === "black-market-core") {
+    state.credits += 70;
+    state.humanity -= 18;
+    state.threat = "Medium";
+  }
+
+  createScreenEl.style.display = "none";
+  gameScreenEl.style.display = "grid";
+
+  logEl.innerHTML = "";
+  addLog("<strong>SYSTEM:</strong> Neural link unstable.");
+  addLog("<strong>PROFILE:</strong> " + state.name + ". " + state.background + ". " + state.implant + ".");
+  addLog("<strong>MESSAGE:</strong> One unread contract offer waits on your wrist-com.");
+
+  if (state.humanity < 100) {
+    addLog("<span class='warning'>Implant load detected. Humanity reduced.</span>");
+  }
+
+  updateUI();
 }
 
 function handleAction(action) {
@@ -112,10 +200,10 @@ function handleAction(action) {
   updateUI();
 }
 
+startGameButtonEl.addEventListener("click", startGame);
+
 document.querySelectorAll("[data-action]").forEach((button) => {
   button.addEventListener("click", () => {
     handleAction(button.dataset.action);
   });
 });
-
-updateUI();
