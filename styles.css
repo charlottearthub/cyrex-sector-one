@@ -731,3 +731,244 @@ body {
     animation: none;
   }
 }
+/* CYREX IMMERSION OVERRIDE — FULL SCREEN SCENE / REVISION 0.1 */
+
+/* Turn the game screen into a true mobile-game viewport */
+.cyrex-game {
+  position: relative;
+  display: none;
+  padding: 0;
+  gap: 0;
+  grid-template-rows: none;
+  overflow: hidden;
+  background: #03050a;
+}
+
+/* Make the image become the world */
+.cyrex-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 0;
+  border: none;
+  background-size: cover;
+  background-position: center center;
+  box-shadow: none;
+}
+
+/* Darken edges so HUD remains readable */
+.cyrex-image-shade {
+  z-index: 2;
+  background:
+    radial-gradient(circle at 50% 42%, transparent 0%, transparent 44%, rgba(0, 0, 0, 0.48) 100%),
+    linear-gradient(180deg, rgba(0,0,0,0.54) 0%, transparent 24%, transparent 58%, rgba(0,0,0,0.86) 100%),
+    linear-gradient(90deg, rgba(0,0,0,0.58), transparent 20%, transparent 80%, rgba(0,0,0,0.58));
+}
+
+/* HUD floats over the image */
+.cyrex-hud {
+  position: absolute;
+  z-index: 10;
+  left: 10px;
+  right: 10px;
+  top: 10px;
+  height: 58px;
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, rgba(4, 8, 12, 0.82), rgba(12, 20, 28, 0.62)),
+    rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+}
+
+/* Health and humanity become small HUD bars over the image */
+.cyrex-bars {
+  position: absolute;
+  z-index: 10;
+  left: 10px;
+  right: 10px;
+  top: 76px;
+  height: 50px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.cyrex-bar {
+  padding: 7px 8px;
+  border-radius: 14px;
+  background: rgba(5, 7, 10, 0.58);
+  backdrop-filter: blur(5px);
+}
+
+.cyrex-bar div {
+  font-size: 9px;
+  margin-bottom: 4px;
+}
+
+.cyrex-bar meter {
+  height: 10px;
+}
+
+/* Make the scene caption part of the world, not a giant card */
+.cyrex-scene-text {
+  left: 12px;
+  right: 12px;
+  bottom: 226px;
+  z-index: 9;
+  padding: 8px 10px;
+  border-radius: 14px;
+  background: rgba(5, 7, 10, 0.56);
+  backdrop-filter: blur(5px);
+}
+
+.cyrex-scene-text h2 {
+  font-size: 18px;
+}
+
+.cyrex-scene-text p {
+  font-size: 10.5px;
+  line-height: 1.25;
+}
+
+/* Compact current-action panel */
+.cyrex-info-panel {
+  position: absolute;
+  z-index: 12;
+  left: 10px;
+  right: 10px;
+  bottom: 142px;
+  height: 68px;
+  border-radius: 16px;
+  background: rgba(5, 7, 10, 0.68);
+  backdrop-filter: blur(7px);
+  transition: height 0.2s ease;
+}
+
+/* Expanded history state */
+.cyrex-info-panel:has(.cyrex-history-toggle:checked) {
+  height: 230px;
+}
+
+.cyrex-log-head {
+  height: 28px;
+  padding: 6px 9px 4px;
+}
+
+.cyrex-log {
+  padding: 7px 9px;
+  font-size: 10.8px;
+  line-height: 1.25;
+}
+
+/* Buttons float at the bottom like a mobile game */
+.cyrex-actions {
+  position: absolute;
+  z-index: 12;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  height: 124px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.cyrex-actions button {
+  min-height: 0;
+  border-radius: 16px;
+  font-size: 11.5px;
+  background:
+    linear-gradient(135deg, rgba(56, 214, 255, 0.15), rgba(179, 38, 50, 0.1)),
+    rgba(5, 7, 10, 0.62);
+  backdrop-filter: blur(5px);
+}
+
+/* Move hotspots into the big image space */
+.cyrex-hotspot-message {
+  left: 18px;
+  bottom: 332px;
+}
+
+.cyrex-hotspot-window {
+  right: 18px;
+  top: 160px;
+}
+
+.cyrex-hotspot-scan {
+  left: 50%;
+  top: 248px;
+  transform: translateX(-50%);
+}
+
+.cyrex-hotspot-door {
+  right: 22px;
+  bottom: 326px;
+}
+
+/* Make hotspots less intrusive */
+.cyrex-hotspot {
+  width: 66px;
+  height: 30px;
+  font-size: 8px;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(56, 214, 255, 0.16), rgba(5, 7, 10, 0.18)),
+    rgba(5, 7, 10, 0.18);
+}
+
+/* On shorter iPhones, keep the world dominant */
+@media (max-height: 760px) {
+  .cyrex-hud {
+    top: 7px;
+    height: 54px;
+  }
+
+  .cyrex-bars {
+    top: 67px;
+    height: 48px;
+  }
+
+  .cyrex-scene-text {
+    bottom: 204px;
+  }
+
+  .cyrex-info-panel {
+    bottom: 126px;
+    height: 62px;
+  }
+
+  .cyrex-info-panel:has(.cyrex-history-toggle:checked) {
+    height: 204px;
+  }
+
+  .cyrex-actions {
+    bottom: 7px;
+    height: 112px;
+  }
+
+  .cyrex-hotspot-message {
+    bottom: 300px;
+  }
+
+  .cyrex-hotspot-door {
+    bottom: 294px;
+  }
+
+  .cyrex-hotspot-window {
+    top: 138px;
+  }
+
+  .cyrex-hotspot-scan {
+    top: 218px;
+  }
+}
+
+/* Fallback for browsers that do not support :has */
+@supports not selector(:has(*)) {
+  .cyrex-info-panel {
+    height: 78px;
+  }
+
+  .cyrex-history-toggle:checked ~ .cyrex-log {
+    max-height: 190px;
+  }
+}
