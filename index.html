@@ -11,53 +11,89 @@
 <body>
   <main class="cyrex-app">
     <section class="cyrex-phone">
-      <header class="cyrex-hud">
-        <div>
+
+      <section class="cyrex-create" id="createScreen">
+        <div class="cyrex-create-card">
           <div class="cyrex-kicker">Mobile Prototype</div>
-          <h1>Cyrex</h1>
-        </div>
+          <h1>Create Character</h1>
+          <p>
+            Prima One does not care who you were. Pick what is left of you.
+          </p>
 
-        <div class="cyrex-hud-stats">
-          <div>Cr: <span id="credits">0</span></div>
-          <div>Threat: <span id="threat">Low</span></div>
-        </div>
-      </header>
+          <label for="characterName">Name</label>
+          <input id="characterName" type="text" value="Jax Veyr" maxlength="24" />
 
-      <section class="cyrex-scene">
-        <div class="cyrex-skyline">
-          <div></div><div></div><div></div><div></div><div></div>
-          <div></div><div></div><div></div><div></div><div></div>
-        </div>
+          <label for="background">Background</label>
+          <select id="background">
+            <option value="street-runner">Street Runner — fast, broke, connected</option>
+            <option value="ex-security">Ex-Security — trained, watched, dangerous</option>
+            <option value="clinic-debt">Clinic Debt — upgraded, damaged, owned</option>
+            <option value="data-rat">Data Rat — clever, nervous, useful</option>
+          </select>
 
-        <div class="cyrex-scene-text">
-          <h2 id="sceneTitle">Lower Stack</h2>
-          <p id="sceneDesc">A rented room bolted to the side of Prima One. The city burns blue through dirty glass.</p>
-        </div>
-      </section>
+          <label for="implant">Starting Implant</label>
+          <select id="implant">
+            <option value="clean">Clean Body — high humanity</option>
+            <option value="old-optic">Old Optic — better scans, slight cost</option>
+            <option value="nerve-splint">Nerve Splint — better combat, humanity loss</option>
+            <option value="black-market-core">Black-Market Core — more credits, heavy cost</option>
+          </select>
 
-      <section class="cyrex-bars">
-        <div class="cyrex-bar">
-          <div><span>Health</span><span id="healthText">100%</span></div>
-          <meter id="healthMeter" value="100" min="0" max="100"></meter>
-        </div>
-
-        <div class="cyrex-bar">
-          <div><span>Humanity</span><span id="humanityText">100%</span></div>
-          <meter id="humanityMeter" value="100" min="0" max="100"></meter>
+          <button id="startGameButton" class="cyrex-start-button">Enter Sector One</button>
         </div>
       </section>
 
-      <section class="cyrex-log" id="log">
-        <p><strong>SYSTEM:</strong> Neural link unstable.</p>
-        <p><strong>MESSAGE:</strong> One unread contract offer waits on your wrist-com.</p>
+      <section class="cyrex-game" id="gameScreen">
+        <header class="cyrex-hud">
+          <div>
+            <div class="cyrex-kicker">Mobile Prototype</div>
+            <h1>Cyrex</h1>
+          </div>
+
+          <div class="cyrex-hud-stats">
+            <div>Name: <span id="playerName">—</span></div>
+            <div>Cr: <span id="credits">0</span></div>
+            <div>Threat: <span id="threat">Low</span></div>
+          </div>
+        </header>
+
+        <section class="cyrex-scene">
+          <div class="cyrex-skyline">
+            <div></div><div></div><div></div><div></div><div></div>
+            <div></div><div></div><div></div><div></div><div></div>
+          </div>
+
+          <div class="cyrex-scene-text">
+            <h2 id="sceneTitle">Lower Stack</h2>
+            <p id="sceneDesc">A rented room bolted to the side of Prima One. The city burns blue through dirty glass.</p>
+          </div>
+        </section>
+
+        <section class="cyrex-bars">
+          <div class="cyrex-bar">
+            <div><span>Health</span><span id="healthText">100%</span></div>
+            <meter id="healthMeter" value="100" min="0" max="100"></meter>
+          </div>
+
+          <div class="cyrex-bar">
+            <div><span>Humanity</span><span id="humanityText">100%</span></div>
+            <meter id="humanityMeter" value="100" min="0" max="100"></meter>
+          </div>
+        </section>
+
+        <section class="cyrex-log" id="log">
+          <p><strong>SYSTEM:</strong> Neural link unstable.</p>
+          <p><strong>MESSAGE:</strong> One unread contract offer waits on your wrist-com.</p>
+        </section>
+
+        <section class="cyrex-actions">
+          <button data-action="message">Check Message</button>
+          <button data-action="scan">Scan Room</button>
+          <button data-action="clinic">Visit Clinic</button>
+          <button data-action="outside">Look Outside</button>
+        </section>
       </section>
 
-      <section class="cyrex-actions">
-        <button data-action="message">Check Message</button>
-        <button data-action="scan">Scan Room</button>
-        <button data-action="clinic">Visit Clinic</button>
-        <button data-action="outside">Look Outside</button>
-      </section>
     </section>
   </main>
 
