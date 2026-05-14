@@ -13,12 +13,22 @@
     <section class="cyrex-phone">
 
       <section class="cyrex-create" id="createScreen">
+        <div class="cyrex-create-bg">
+          <div class="cyrex-create-orb cyrex-create-orb-one"></div>
+          <div class="cyrex-create-orb cyrex-create-orb-two"></div>
+          <div class="cyrex-create-gridline"></div>
+        </div>
+
         <div class="cyrex-create-card">
-          <div class="cyrex-kicker">Mobile Prototype</div>
+          <div class="cyrex-kicker">Cyrex Mobile Prototype</div>
           <h1>Create Character</h1>
           <p>
             Prima One does not care who you were. Pick what is left of you.
           </p>
+
+          <div class="cyrex-create-warning">
+            Neural record incomplete. Identity reconstruction required.
+          </div>
 
           <label for="characterName">Name</label>
           <input id="characterName" type="text" value="Jax Veyr" maxlength="24" />
@@ -40,13 +50,17 @@
           </select>
 
           <button id="startGameButton" class="cyrex-start-button">Enter Sector One</button>
+
+          <div class="cyrex-create-footer">
+            System warning: humanity loss is permanent.
+          </div>
         </div>
       </section>
 
       <section class="cyrex-game" id="gameScreen">
         <header class="cyrex-hud">
-          <div>
-            <div class="cyrex-kicker">Mobile Prototype</div>
+          <div class="cyrex-hud-left">
+            <div class="cyrex-kicker">Sector One</div>
             <h1>Cyrex</h1>
           </div>
 
@@ -58,24 +72,32 @@
         </header>
 
         <section class="cyrex-scene">
+          <div class="cyrex-background-stars"></div>
+          <div class="cyrex-orbital-arc"></div>
           <div class="cyrex-moon-glow"></div>
 
           <div class="cyrex-traffic cyrex-traffic-one"></div>
           <div class="cyrex-traffic cyrex-traffic-two"></div>
           <div class="cyrex-traffic cyrex-traffic-three"></div>
+          <div class="cyrex-traffic cyrex-traffic-four"></div>
 
           <div class="cyrex-fog cyrex-fog-one"></div>
           <div class="cyrex-fog cyrex-fog-two"></div>
+          <div class="cyrex-fog cyrex-fog-three"></div>
 
           <div class="cyrex-skyline">
             <div></div><div></div><div></div><div></div><div></div>
             <div></div><div></div><div></div><div></div><div></div>
           </div>
 
+          <div class="cyrex-interior-shadow"></div>
+
           <div class="cyrex-window-frame">
             <span></span>
             <span></span>
           </div>
+
+          <div class="cyrex-scanline-layer"></div>
 
           <button class="cyrex-hotspot cyrex-hotspot-message" data-action="message" aria-label="Check wrist-com message">
             <span>Wrist-Com</span>
