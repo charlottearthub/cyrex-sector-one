@@ -72,31 +72,7 @@
         </header>
 
         <section class="cyrex-scene">
-          <div class="cyrex-background-stars"></div>
-          <div class="cyrex-orbital-arc"></div>
-          <div class="cyrex-moon-glow"></div>
-
-          <div class="cyrex-traffic cyrex-traffic-one"></div>
-          <div class="cyrex-traffic cyrex-traffic-two"></div>
-          <div class="cyrex-traffic cyrex-traffic-three"></div>
-          <div class="cyrex-traffic cyrex-traffic-four"></div>
-
-          <div class="cyrex-fog cyrex-fog-one"></div>
-          <div class="cyrex-fog cyrex-fog-two"></div>
-          <div class="cyrex-fog cyrex-fog-three"></div>
-
-          <div class="cyrex-skyline">
-            <div></div><div></div><div></div><div></div><div></div>
-            <div></div><div></div><div></div><div></div><div></div>
-          </div>
-
-          <div class="cyrex-interior-shadow"></div>
-
-          <div class="cyrex-window-frame">
-            <span></span>
-            <span></span>
-          </div>
-
+          <div class="cyrex-image-shade"></div>
           <div class="cyrex-scanline-layer"></div>
 
           <button class="cyrex-hotspot cyrex-hotspot-message" data-action="message" aria-label="Check wrist-com message">
@@ -133,9 +109,18 @@
           </div>
         </section>
 
-        <section class="cyrex-log" id="log">
-          <p><strong>SYSTEM:</strong> Neural link unstable.</p>
-          <p><strong>MESSAGE:</strong> One unread contract offer waits on your wrist-com.</p>
+        <section class="cyrex-info-panel">
+          <input class="cyrex-history-toggle" type="checkbox" id="historyToggle" />
+
+          <div class="cyrex-log-head">
+            <span>Current Action</span>
+            <label for="historyToggle">History</label>
+          </div>
+
+          <section class="cyrex-log" id="log">
+            <p><strong>SYSTEM:</strong> Neural link unstable.</p>
+            <p><strong>MESSAGE:</strong> One unread contract offer waits on your wrist-com.</p>
+          </section>
         </section>
 
         <section class="cyrex-actions">
