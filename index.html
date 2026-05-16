@@ -3,9 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>Cyrex: Sector One</title>
-
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -20,11 +18,9 @@
         </div>
 
         <div class="cyrex-create-card">
-          <div class="cyrex-kicker">Cyrex Mobile Prototype</div>
+          <div class="cyrex-kicker">Cyrex Sector One</div>
           <h1>Create Character</h1>
-          <p>
-            Prima One does not care who you were. Pick what is left of you.
-          </p>
+          <p>Prima One does not care who you were. Pick what is left of you.</p>
 
           <div class="cyrex-create-warning">
             Neural record incomplete. Identity reconstruction required.
@@ -33,12 +29,21 @@
           <label for="characterName">Name</label>
           <input id="characterName" type="text" value="Jax Veyr" maxlength="24" />
 
-          <label for="background">Background</label>
-          <select id="background">
-            <option value="street-runner">Street Runner — fast, broke, connected</option>
-            <option value="ex-security">Ex-Security — trained, watched, dangerous</option>
-            <option value="clinic-debt">Clinic Debt — upgraded, damaged, owned</option>
-            <option value="data-rat">Data Rat — clever, nervous, useful</option>
+          <label for="profession">Profession</label>
+          <select id="profession">
+            <option value="scavenger">Scavenger — finds more materials</option>
+            <option value="courier">Courier — better delivery rewards</option>
+            <option value="medic">Street Medic — cheaper recovery and med crafting</option>
+            <option value="tech">Cybernetic Tech — better crafting and repairs</option>
+            <option value="data-runner">Data Runner — better scans and Grid work</option>
+            <option value="bounty-hunter">Bounty Hunter — better combat contracts</option>
+          </select>
+
+          <label for="affiliation">Affiliation</label>
+          <select id="affiliation">
+            <option value="mp">M&amp;P — unaffiliated independent</option>
+            <option value="free-cell">Free Cell — anti-Towers, illegal, self-owned</option>
+            <option value="corporate-cell">Corporate Cell — licensed, funded, watched</option>
           </select>
 
           <label for="implant">Starting Implant</label>
@@ -50,85 +55,116 @@
           </select>
 
           <button id="startGameButton" class="cyrex-start-button">Enter Sector One</button>
+          <button id="loadGameButton" class="cyrex-load-button" type="button">Load Local Save</button>
 
-          <div class="cyrex-create-footer">
-            System warning: humanity loss is permanent.
-          </div>
+          <div class="cyrex-create-footer">System warning: humanity loss is permanent.</div>
         </div>
       </section>
 
       <section class="cyrex-game" id="gameScreen">
         <header class="cyrex-hud">
           <div class="cyrex-hud-left">
-            <div class="cyrex-kicker">Sector One</div>
+            <div class="cyrex-kicker">Prima One</div>
             <h1>Cyrex</h1>
           </div>
 
           <div class="cyrex-hud-stats">
-            <div>Name: <span id="playerName">—</span></div>
-            <div>Cr: <span id="credits">0</span></div>
-            <div>Threat: <span id="threat">Low</span></div>
+            <div><span id="playerName">—</span></div>
+            <div><span id="professionText">—</span> · <span id="affiliationText">—</span></div>
+            <div>Cr <span id="credits">0</span> · Lv <span id="levelText">1</span></div>
           </div>
         </header>
 
-        <section class="cyrex-scene">
-          <div class="cyrex-image-shade"></div>
-          <div class="cyrex-scanline-layer"></div>
+        <section class="cyrex-main-scroll">
+          <section class="cyrex-portal-panel cyrex-panel is-active" data-panel="portal">
+            <div class="cyrex-district-card">
+              <div class="cyrex-image-shade"></div>
+              <div class="cyrex-scanline-layer"></div>
+              <div class="cyrex-district-content">
+                <div class="cyrex-kicker">Active District</div>
+                <h2 id="sceneTitle">Grayline District</h2>
+                <p id="sceneDesc">Transit lockdown. Power instability. Corporate sweep in progress.</p>
+                <button class="cyrex-main-action" data-action="enter-district">Enter District</button>
+              </div>
+            </div>
 
-          <button class="cyrex-hotspot cyrex-hotspot-message" data-action="message" aria-label="Check wrist-com message">
-            <span>Wrist-Com</span>
-          </button>
+            <section class="cyrex-bars">
+              <div class="cyrex-bar"><div><span>Health</span><span id="healthText">100%</span></div><meter id="healthMeter" value="100" min="0" max="100"></meter></div>
+              <div class="cyrex-bar"><div><span>Energy</span><span id="energyText">100%</span></div><meter id="energyMeter" value="100" min="0" max="100"></meter></div>
+              <div class="cyrex-bar"><div><span>Humanity</span><span id="humanityText">100%</span></div><meter id="humanityMeter" value="100" min="0" max="100"></meter></div>
+              <div class="cyrex-bar"><div><span>Heat</span><span id="heatText">0%</span></div><meter id="heatMeter" value="0" min="0" max="100"></meter></div>
+            </section>
 
-          <button class="cyrex-hotspot cyrex-hotspot-window" data-action="outside" aria-label="Look outside">
-            <span>Window</span>
-          </button>
+            <section class="cyrex-feed-card">
+              <div class="cyrex-section-head"><span>City Feed</span><button data-action="refresh-feed">Refresh</button></div>
+              <div id="cityFeed" class="cyrex-feed-list"></div>
+            </section>
+          </section>
 
-          <button class="cyrex-hotspot cyrex-hotspot-scan" data-action="scan" aria-label="Scan the room">
-            <span>Scan</span>
-          </button>
+          <section class="cyrex-panel" data-panel="district">
+            <div class="cyrex-section-title"><span>District</span><strong>Grayline District</strong></div>
+            <p class="cyrex-copy">A locked-down corridor of clinics, transit scaffolds, markets, and sleeping blocks. Good work if you can survive the wrong eyes.</p>
+            <div class="cyrex-card-grid">
+              <button data-action="scavenge-run">Scavenge Run</button>
+              <button data-action="scan-district">Scan District</button>
+              <button data-action="visit-clinic">Visit Clinic</button>
+              <button data-action="rest-cycle">Rest Cycle</button>
+            </div>
+          </section>
 
-          <button class="cyrex-hotspot cyrex-hotspot-door" data-action="clinic" aria-label="Leave for clinic">
-            <span>Door</span>
-          </button>
+          <section class="cyrex-panel" data-panel="jobs">
+            <div class="cyrex-section-title"><span>Contracts</span><strong>Available Work</strong></div>
+            <div id="jobsList" class="cyrex-list"></div>
+          </section>
 
-          <div class="cyrex-scene-text">
-            <h2 id="sceneTitle">Lower Stack</h2>
-            <p id="sceneDesc">A rented room bolted to the side of Prima One. The city burns blue through dirty glass.</p>
-          </div>
-        </section>
+          <section class="cyrex-panel" data-panel="inventory">
+            <div class="cyrex-section-title"><span>Inventory</span><strong>Gear + Materials</strong></div>
+            <div id="inventoryList" class="cyrex-list"></div>
+          </section>
 
-        <section class="cyrex-bars">
-          <div class="cyrex-bar">
-            <div><span>Health</span><span id="healthText">100%</span></div>
-            <meter id="healthMeter" value="100" min="0" max="100"></meter>
-          </div>
+          <section class="cyrex-panel" data-panel="crafting">
+            <div class="cyrex-section-title"><span>Crafting</span><strong>Workbench</strong></div>
+            <div id="craftingList" class="cyrex-list"></div>
+          </section>
 
-          <div class="cyrex-bar">
-            <div><span>Humanity</span><span id="humanityText">100%</span></div>
-            <meter id="humanityMeter" value="100" min="0" max="100"></meter>
-          </div>
+          <section class="cyrex-panel" data-panel="market">
+            <div class="cyrex-section-title"><span>Market</span><strong>Black Circuit Exchange</strong></div>
+            <p class="cyrex-copy">Auction system placeholder. For now, buy basic supplies and sell scavenged materials.</p>
+            <div id="marketList" class="cyrex-list"></div>
+          </section>
+
+          <section class="cyrex-panel" data-panel="safehouse">
+            <div class="cyrex-section-title"><span>Safehouse</span><strong>Lower Stack Room</strong></div>
+            <p class="cyrex-copy">Your room is small, rented, and half-dead. Still yours.</p>
+            <div id="safehouseList" class="cyrex-list"></div>
+          </section>
+
+          <section class="cyrex-panel" data-panel="profile">
+            <div class="cyrex-section-title"><span>Profile</span><strong>Character Status</strong></div>
+            <div id="profilePanel" class="cyrex-profile-grid"></div>
+            <div class="cyrex-save-row">
+              <button data-action="save-game">Save Local</button>
+              <button data-action="reset-game">Reset</button>
+            </div>
+          </section>
         </section>
 
         <section class="cyrex-info-panel">
           <input class="cyrex-history-toggle" type="checkbox" id="historyToggle" />
-
-          <div class="cyrex-log-head">
-            <span>Current Action</span>
-            <label for="historyToggle">History</label>
-          </div>
-
-          <section class="cyrex-log" id="log">
-            <p><strong>SYSTEM:</strong> Neural link unstable.</p>
-            <p><strong>MESSAGE:</strong> One unread contract offer waits on your wrist-com.</p>
-          </section>
+          <div class="cyrex-log-head"><span>Current Action</span><label for="historyToggle">History</label></div>
+          <section class="cyrex-log" id="log"></section>
         </section>
 
-        <section class="cyrex-actions">
-          <button data-action="message">Check Message</button>
-          <button data-action="scan">Scan Room</button>
-          <button data-action="clinic">Visit Clinic</button>
-          <button data-action="outside">Look Outside</button>
-        </section>
+        <nav class="cyrex-tabs" aria-label="Cyrex navigation">
+          <button class="is-active" data-tab="portal">Feed</button>
+          <button data-tab="district">Map</button>
+          <button data-tab="jobs">Jobs</button>
+          <button data-tab="inventory">Inv</button>
+          <button data-tab="crafting">Craft</button>
+          <button data-tab="market">Market</button>
+          <button data-tab="safehouse">House</button>
+          <button data-tab="profile">Profile</button>
+        </nav>
       </section>
 
     </section>
