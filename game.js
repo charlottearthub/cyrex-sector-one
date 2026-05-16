@@ -21,18 +21,23 @@ document.head.appendChild(mobileFixStyles);
 const gameScript = document.createElement('script');
 gameScript.src = 'game-fixed.js';
 gameScript.onload = function () {
-  const mapScript = document.createElement('script');
-  mapScript.src = 'cyrex-mapnav.js';
-  mapScript.onload = function () {
-    const houseScript = document.createElement('script');
-    houseScript.src = 'cyrex-nav-house.js';
-    houseScript.onload = function () {
-      const iconScript = document.createElement('script');
-      iconScript.src = 'cyrex-icons-info.js';
-      document.body.appendChild(iconScript);
+  const mapOverrideScript = document.createElement('script');
+  mapOverrideScript.src = 'cyrex-map-overrides.js';
+  mapOverrideScript.onload = function () {
+    const mapScript = document.createElement('script');
+    mapScript.src = 'cyrex-mapnav.js';
+    mapScript.onload = function () {
+      const houseScript = document.createElement('script');
+      houseScript.src = 'cyrex-nav-house.js';
+      houseScript.onload = function () {
+        const iconScript = document.createElement('script');
+        iconScript.src = 'cyrex-icons-info.js';
+        document.body.appendChild(iconScript);
+      };
+      document.body.appendChild(houseScript);
     };
-    document.body.appendChild(houseScript);
+    document.body.appendChild(mapScript);
   };
-  document.body.appendChild(mapScript);
+  document.body.appendChild(mapOverrideScript);
 };
 document.body.appendChild(gameScript);
