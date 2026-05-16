@@ -22,9 +22,7 @@
           <h1>Create Character</h1>
           <p>Prima One does not care who you were. Pick what is left of you.</p>
 
-          <div class="cyrex-create-warning">
-            Neural record incomplete. Identity reconstruction required.
-          </div>
+          <div class="cyrex-create-warning">Neural record incomplete. Identity reconstruction required.</div>
 
           <label for="characterName">Name</label>
           <input id="characterName" type="text" value="Jax Veyr" maxlength="24" />
@@ -56,7 +54,6 @@
 
           <button id="startGameButton" class="cyrex-start-button">Enter Sector One</button>
           <button id="loadGameButton" class="cyrex-load-button" type="button">Load Local Save</button>
-
           <div class="cyrex-create-footer">System warning: humanity loss is permanent.</div>
         </div>
       </section>
@@ -67,7 +64,6 @@
             <div class="cyrex-kicker">Prima One</div>
             <h1>Cyrex</h1>
           </div>
-
           <div class="cyrex-hud-stats">
             <div><span id="playerName">—</span></div>
             <div><span id="professionText">—</span> · <span id="affiliationText">—</span></div>
@@ -77,7 +73,7 @@
 
         <section class="cyrex-main-scroll">
           <section class="cyrex-portal-panel cyrex-panel is-active" data-panel="portal">
-            <div class="cyrex-district-card">
+            <div class="cyrex-district-card" id="districtHeroCard">
               <div class="cyrex-image-shade"></div>
               <div class="cyrex-scanline-layer"></div>
               <div class="cyrex-district-content">
@@ -102,8 +98,9 @@
           </section>
 
           <section class="cyrex-panel" data-panel="district">
-            <div class="cyrex-section-title"><span>District</span><strong>Grayline District</strong></div>
-            <p class="cyrex-copy">A locked-down corridor of clinics, transit scaffolds, markets, and sleeping blocks. Good work if you can survive the wrong eyes.</p>
+            <div class="cyrex-section-title"><span>District</span><strong id="districtName">Grayline District</strong></div>
+            <p class="cyrex-copy" id="districtCopy">A locked-down corridor of clinics, transit scaffolds, markets, and sleeping blocks.</p>
+            <div id="districtList" class="cyrex-list"></div>
             <div class="cyrex-card-grid">
               <button data-action="scavenge-run">Scavenge Run</button>
               <button data-action="scan-district">Scan District</button>
@@ -139,6 +136,18 @@
             <div id="safehouseList" class="cyrex-list"></div>
           </section>
 
+          <section class="cyrex-panel" data-panel="cybernetics">
+            <div class="cyrex-section-title"><span>Cybernetics</span><strong>Body Ledger</strong></div>
+            <p class="cyrex-copy">Every upgrade gives something. Every upgrade takes something. Humanity is not a decoration.</p>
+            <div id="cyberneticsList" class="cyrex-list"></div>
+          </section>
+
+          <section class="cyrex-panel" data-panel="cells">
+            <div class="cyrex-section-title"><span>Cells</span><strong>Political Standing</strong></div>
+            <p class="cyrex-copy">Free Cells fight the Towers. Corporate Cells serve them. M&amp;P keeps the doors open.</p>
+            <div id="cellsPanel" class="cyrex-list"></div>
+          </section>
+
           <section class="cyrex-panel" data-panel="profile">
             <div class="cyrex-section-title"><span>Profile</span><strong>Character Status</strong></div>
             <div id="profilePanel" class="cyrex-profile-grid"></div>
@@ -163,13 +172,13 @@
           <button data-tab="crafting">Craft</button>
           <button data-tab="market">Market</button>
           <button data-tab="safehouse">House</button>
+          <button data-tab="cybernetics">Cyber</button>
+          <button data-tab="cells">Cells</button>
           <button data-tab="profile">Profile</button>
         </nav>
       </section>
-
     </section>
   </main>
-
   <script src="game.js"></script>
 </body>
 </html>
