@@ -13,6 +13,11 @@ iconStyles.rel = 'stylesheet';
 iconStyles.href = 'cyrex-icons.css';
 document.head.appendChild(iconStyles);
 
+const mobileFixStyles = document.createElement('link');
+mobileFixStyles.rel = 'stylesheet';
+mobileFixStyles.href = 'cyrex-mobile-fix.css';
+document.head.appendChild(mobileFixStyles);
+
 const gameScript = document.createElement('script');
 gameScript.src = 'game-fixed.js';
 gameScript.onload = function () {
