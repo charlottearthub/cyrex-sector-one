@@ -1,5 +1,13 @@
 const SAVE_KEY = "cyrex_sector_one_v03";
 
+const MAPS = {
+  sector: "https://res.cloudinary.com/dkhxur6ga/image/upload/v1778957004/53D1D4C4-9DED-4D01-AD40-9AB4754239A7_qrixbf.png",
+  blackrow: "https://res.cloudinary.com/dkhxur6ga/image/upload/v1778957005/425DA09A-B4BB-4AAB-9B3A-C1D9700A2DD4_h7un11.png",
+  dock12: "https://res.cloudinary.com/dkhxur6ga/image/upload/v1778957004/F6E1220F-0355-49AF-BB61-DD836B6BA2E1_s0jcif.png",
+  grayline: "https://res.cloudinary.com/dkhxur6ga/image/upload/v1778957004/1EFFCA3E-8042-43E2-8E20-9D8DBC996272_ijew50.png",
+  clinic: "https://res.cloudinary.com/dkhxur6ga/image/upload/v1778957004/BD6512C8-FFD5-4BAC-903F-4757B5C146A0_xwrkq2.png"
+};
+
 const DATA = {
   professions: {
     scavenger: { label: "Scavenger", bonus: "Scavenge runs find +1 scrap when successful." },
@@ -14,17 +22,12 @@ const DATA = {
     "free-cell": { label: "Free Cell", desc: "Anti-Towers. Illegal, self-owned, watched by the Grid." },
     "corporate-cell": { label: "Corporate Cell", desc: "Licensed by the Towers. Funded, protected, owned." }
   },
-  implants: {
-    clean: "Clean Body",
-    "old-optic": "Old Optic",
-    "nerve-splint": "Nerve Splint",
-    "black-market-core": "Black-Market Core"
-  },
+  implants: { clean: "Clean Body", "old-optic": "Old Optic", "nerve-splint": "Nerve Splint", "black-market-core": "Black-Market Core" },
   districts: [
-    { id: "grayline", title: "Grayline District", status: "Transit Lockdown", danger: "Medium", heat: 4, text: "Clinics, transit scaffolds, sleeping blocks, and bad light. Good work if you can survive the wrong eyes.", resources: { scrap: 2, circuit: 1 }, feed: "Grayline reports another rolling blackout." },
-    { id: "dock12", title: "Dock 12", status: "Core Smuggling", danger: "High", heat: 9, text: "A cargo wound in the side of Prima One. Power cores, stolen freight, and people nobody claims.", resources: { scrap: 2, power_core: 1 }, feed: "Black-market power cores moved through Dock 12." },
-    { id: "blackrow", title: "Black Market Row", status: "Open Trade", danger: "Medium", heat: 6, text: "If it can be bought, sold, installed, erased, or denied, someone here has a price for it.", resources: { circuit: 1, data_shard: 1 }, feed: "Black Market Row prices shifted after a Corporate Cell raid." },
-    { id: "clinic", title: "Clinic Quarter", status: "Emergency Load", danger: "Low", heat: 2, text: "Red-white light, burned nerves, clean blades, dirty credit. Everybody comes here eventually.", resources: { med_gel: 2, scrap: 1 }, feed: "Clinic Quarter is paying above market for trauma kits." }
+    { id: "grayline", title: "Grayline District", status: "Transit Lockdown", danger: "Medium", heat: 4, image: MAPS.grayline, text: "Clinics, transit scaffolds, sleeping blocks, and bad light. Good work if you can survive the wrong eyes.", resources: { scrap: 2, circuit: 1 }, feed: "Grayline reports another rolling blackout." },
+    { id: "dock12", title: "Dock 12", status: "Industrial Port", danger: "High", heat: 9, image: MAPS.dock12, text: "A cargo wound in the side of Prima One. Power cores, stolen freight, and people nobody claims.", resources: { scrap: 2, power_core: 1 }, feed: "Black-market power cores moved through Dock 12." },
+    { id: "blackrow", title: "Black Market Row", status: "Undercity Access", danger: "Medium", heat: 6, image: MAPS.blackrow, text: "If it can be bought, sold, installed, erased, or denied, someone here has a price for it.", resources: { circuit: 1, data_shard: 1 }, feed: "Black Market Row prices shifted after a Corporate Cell raid." },
+    { id: "clinic", title: "Clinic Quarter", status: "Medical Sector", danger: "Low", heat: 2, image: MAPS.clinic, text: "Red-white light, burned nerves, clean blades, dirty credit. Everybody comes here eventually.", resources: { med_gel: 2, scrap: 1 }, feed: "Clinic Quarter is paying above market for trauma kits." }
   ],
   jobs: [
     { id: "medgel", title: "Clinic Med-Gel Delivery", type: "Delivery", difficulty: "Low", reward: 90, xp: 24, energy: 14, heat: 4, materials: { med_gel: 1 }, text: "A clinic needs med-gel moved through a locked transit corridor." },
@@ -63,7 +66,6 @@ const DATA = {
 };
 
 let state = getNewState();
-
 const el = (id) => document.getElementById(id);
 const createScreenEl = el("createScreen");
 const gameScreenEl = el("gameScreen");
@@ -75,51 +77,22 @@ const affiliationEl = el("affiliation");
 const implantEl = el("implant");
 
 function getNewState() {
-  return {
-    name: "Jax Veyr",
-    profession: "scavenger",
-    affiliation: "mp",
-    implant: "clean",
-    credits: 100,
-    level: 1,
-    xp: 0,
-    health: 100,
-    energy: 100,
-    humanity: 100,
-    heat: 6,
-    reputation: 0,
-    activeDistrict: "grayline",
-    hasMap: false,
-    completedJobs: [],
-    safehouseUpgrades: [],
-    installedCybernetics: [],
-    standing: { free: 0, corporate: 0, mp: 8 },
-    inventory: { scrap: 3, circuit: 1, med_gel: 1 },
-    feed: [
-      "Clinic requests med-gel delivery.",
-      "Black-market power cores spotted near Dock 12.",
-      "Free Cells active under the transit spine.",
-      "Corporate Cells increased patrols in Grayline.",
-      "The Grid flagged unusual traffic."
-    ],
-    log: []
-  };
+  return { name: "Jax Veyr", profession: "scavenger", affiliation: "mp", implant: "clean", credits: 100, level: 1, xp: 0, health: 100, energy: 100, humanity: 100, heat: 6, reputation: 0, activeDistrict: "grayline", hasMap: false, completedJobs: [], safehouseUpgrades: [], installedCybernetics: [], standing: { free: 0, corporate: 0, mp: 8 }, inventory: { scrap: 3, circuit: 1, med_gel: 1 }, feed: ["Clinic requests med-gel delivery.", "Black-market power cores spotted near Dock 12.", "Free Cells active under the transit spine.", "Corporate Cells increased patrols in Grayline.", "The Grid flagged unusual traffic."], log: [] };
 }
 
 function activeDistrict() { return DATA.districts.find((d) => d.id === state.activeDistrict) || DATA.districts[0]; }
 function labelProfession() { return DATA.professions[state.profession]?.label || "Scavenger"; }
 function labelAffiliation() { return DATA.affiliations[state.affiliation]?.label || "M&P"; }
 function labelImplant() { return DATA.implants[state.implant] || "Clean Body"; }
-function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
-function addItem(key, amount) { state.inventory[key] = (state.inventory[key] || 0) + amount; if (state.inventory[key] <= 0) delete state.inventory[key]; }
-function hasItems(required = {}) { return Object.keys(required).every((key) => (state.inventory[key] || 0) >= required[key]); }
-function spendItems(required = {}) { if (!hasItems(required)) return false; Object.keys(required).forEach((key) => addItem(key, -required[key])); return true; }
-function formatItem(key) { return key.replaceAll("_", " ").replace(/\b\w/g, (c) => c.toUpperCase()); }
-function formatRequirements(items = {}) { return Object.entries(items).map(([key, val]) => `${formatItem(key)} x${val}`).join(", "); }
-
-function addLog(message) { state.log.push(message); if (state.log.length > 80) state.log.shift(); renderLog(); }
-function addFeed(message) { state.feed.unshift(message); if (state.feed.length > 12) state.feed.pop(); }
-function gainXp(amount) { state.xp += amount; const needed = state.level * 100; if (state.xp >= needed) { state.xp -= needed; state.level += 1; state.health = clamp(state.health + 15, 0, 100); state.energy = clamp(state.energy + 15, 0, 100); addLog("<strong>LEVEL UP:</strong> You hit level " + state.level + "."); } }
+function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+function addItem(k, a) { state.inventory[k] = (state.inventory[k] || 0) + a; if (state.inventory[k] <= 0) delete state.inventory[k]; }
+function hasItems(req = {}) { return Object.keys(req).every((k) => (state.inventory[k] || 0) >= req[k]); }
+function spendItems(req = {}) { if (!hasItems(req)) return false; Object.keys(req).forEach((k) => addItem(k, -req[k])); return true; }
+function formatItem(k) { return k.replaceAll("_", " ").replace(/\b\w/g, (c) => c.toUpperCase()); }
+function formatRequirements(items = {}) { return Object.entries(items).map(([k, v]) => `${formatItem(k)} x${v}`).join(", "); }
+function addLog(m) { state.log.push(m); if (state.log.length > 80) state.log.shift(); renderLog(); }
+function addFeed(m) { state.feed.unshift(m); if (state.feed.length > 12) state.feed.pop(); }
+function gainXp(a) { state.xp += a; const needed = state.level * 100; if (state.xp >= needed) { state.xp -= needed; state.level += 1; state.health = clamp(state.health + 15, 0, 100); state.energy = clamp(state.energy + 15, 0, 100); addLog("<strong>LEVEL UP:</strong> You hit level " + state.level + "."); } }
 
 function startGame() {
   state = getNewState();
@@ -127,14 +100,12 @@ function startGame() {
   state.profession = professionEl.value;
   state.affiliation = affiliationEl.value;
   state.implant = implantEl.value;
-
   if (state.affiliation === "free-cell") { state.heat += 10; state.reputation += 10; state.standing.free += 20; addFeed("A Free Cell contact marks your name as useful."); }
   if (state.affiliation === "corporate-cell") { state.credits += 80; state.heat = clamp(state.heat - 2, 0, 100); state.reputation += 4; state.standing.corporate += 22; addFeed("Corporate Cell registry approved. The Ledger has your signature."); }
   if (state.affiliation === "mp") { state.credits += 25; state.reputation += 6; state.standing.mp += 18; addFeed("M&P operators keep moving without a banner."); }
   if (state.implant === "old-optic") { state.humanity -= 6; state.hasMap = true; state.installedCybernetics.push("optic"); }
   if (state.implant === "nerve-splint") { state.humanity -= 10; state.installedCybernetics.push("splint"); }
   if (state.implant === "black-market-core") { state.credits += 90; state.humanity -= 20; state.heat += 12; addItem("power_core", 1); state.installedCybernetics.push("blackcore"); }
-
   createScreenEl.style.display = "none";
   gameScreenEl.style.display = "grid";
   state.log = [];
@@ -145,217 +116,33 @@ function startGame() {
   renderAll();
 }
 
-function renderAll() {
-  el("playerName").textContent = state.name;
-  el("professionText").textContent = labelProfession();
-  el("affiliationText").textContent = labelAffiliation();
-  el("credits").textContent = state.credits;
-  el("levelText").textContent = state.level;
-  renderDistrictHero();
-  renderMeters();
-  renderFeed();
-  renderDistricts();
-  renderJobs();
-  renderInventory();
-  renderCrafting();
-  renderMarket();
-  renderSafehouse();
-  renderCybernetics();
-  renderCells();
-  renderProfile();
-  renderLog();
-}
-
-function renderDistrictHero() {
-  const district = activeDistrict();
-  el("sceneTitle").textContent = district.title;
-  el("sceneDesc").textContent = `${district.status}. Danger ${district.danger}. ${district.text}`;
-  el("districtName").textContent = district.title;
-  el("districtCopy").textContent = district.text;
-}
-
-function renderMeters() {
-  [["health", state.health], ["energy", state.energy], ["humanity", state.humanity], ["heat", state.heat]].forEach(([key, value]) => { el(key + "Text").textContent = value + "%"; el(key + "Meter").value = value; });
-}
-
-function renderFeed() {
-  el("cityFeed").innerHTML = state.feed.map((item, index) => `<div class="cyrex-feed-item"><span>${index === 0 ? "LIVE" : "FEED"}</span><p>${item}</p></div>`).join("");
-}
-
-function renderDistricts() {
-  el("districtList").innerHTML = DATA.districts.map((district) => `
-    <article class="cyrex-list-card ${district.id === state.activeDistrict ? "selected" : ""}">
-      <div><strong>${district.title}</strong><span>${district.status}</span></div>
-      <p>${district.text}</p>
-      <small>Danger: ${district.danger} · Heat on entry: +${district.heat}</small>
-      <button data-district="${district.id}">${district.id === state.activeDistrict ? "Active" : "Travel"}</button>
-    </article>
-  `).join("");
-}
-
-function renderJobs() {
-  el("jobsList").innerHTML = DATA.jobs.map((job) => { const done = state.completedJobs.includes(job.id); return `<article class="cyrex-list-card"><div><strong>${job.title}</strong><span>${job.type} · ${job.difficulty}</span></div><p>${job.text}</p><small>Reward: ${job.reward} cr · ${job.xp} XP · Energy ${job.energy}</small><button data-job="${job.id}" ${done ? "disabled" : ""}>${done ? "Completed" : "Take Job"}</button></article>`; }).join("");
-}
-
-function renderInventory() {
-  const entries = Object.entries(state.inventory);
-  el("inventoryList").innerHTML = entries.length ? entries.map(([key, value]) => `<article class="cyrex-list-card compact"><strong>${formatItem(key)}</strong><span>x${value}</span></article>`).join("") : `<article class="cyrex-list-card"><p>No gear. No parts. Bad place to be.</p></article>`;
-}
-
-function renderCrafting() {
-  el("craftingList").innerHTML = DATA.recipes.map((recipe) => { const canCraft = state.credits >= recipe.creditCost && hasItems(recipe.requires); return `<article class="cyrex-list-card"><div><strong>${recipe.title}</strong><span>${recipe.creditCost} cr</span></div><p>Requires: ${formatRequirements(recipe.requires)}</p><small>Creates: ${formatRequirements(recipe.gives)}</small><button data-craft="${recipe.id}" ${canCraft ? "" : "disabled"}>Craft</button></article>`; }).join("");
-}
-
-function renderMarket() {
-  el("marketList").innerHTML = DATA.market.map((item) => `<article class="cyrex-list-card"><div><strong>${item.title}</strong><span>${item.cost ? item.cost + " cr" : "+" + item.reward + " cr"}</span></div><button data-market="${item.id}">${item.cost ? "Buy" : "Sell"}</button></article>`).join("");
-}
-
-function renderSafehouse() {
-  el("safehouseList").innerHTML = DATA.safehouse.map((upgrade) => { const owned = state.safehouseUpgrades.includes(upgrade.id); const canBuy = !owned && state.credits >= upgrade.cost && hasItems(upgrade.requires); return `<article class="cyrex-list-card"><div><strong>${upgrade.title}</strong><span>${owned ? "Installed" : upgrade.cost + " cr"}</span></div><p>${upgrade.effect}</p><small>Requires: ${formatRequirements(upgrade.requires)}</small><button data-upgrade="${upgrade.id}" ${canBuy ? "" : "disabled"}>${owned ? "Installed" : "Install"}</button></article>`; }).join("");
-}
-
-function renderCybernetics() {
-  el("cyberneticsList").innerHTML = DATA.cybernetics.map((cyber) => {
-    const installed = state.installedCybernetics.includes(cyber.id);
-    const installCost = state.profession === "tech" ? Math.max(20, cyber.cost - 25) : cyber.cost;
-    const canInstall = !installed && state.credits >= installCost && hasItems(cyber.requires) && state.humanity > cyber.humanity;
-    return `<article class="cyrex-list-card ${installed ? "selected" : ""}"><div><strong>${cyber.title}</strong><span>${installed ? "Installed" : installCost + " cr"}</span></div><p>${cyber.effect}</p><small>Humanity -${cyber.humanity} · Heat +${cyber.heat} · Requires: ${formatRequirements(cyber.requires)}</small><button data-cyber="${cyber.id}" ${canInstall ? "" : "disabled"}>${installed ? "Installed" : "Install"}</button></article>`;
-  }).join("");
-}
-
-function renderCells() {
-  const affiliation = DATA.affiliations[state.affiliation];
-  el("cellsPanel").innerHTML = `
-    <article class="cyrex-list-card"><div><strong>Current Standing</strong><span>${labelAffiliation()}</span></div><p>${affiliation.desc}</p></article>
-    <article class="cyrex-list-card compact"><strong>Free Cell Standing</strong><span>${state.standing.free}</span></article>
-    <article class="cyrex-list-card compact"><strong>Corporate Cell Standing</strong><span>${state.standing.corporate}</span></article>
-    <article class="cyrex-list-card compact"><strong>M&P Standing</strong><span>${state.standing.mp}</span></article>
-    <article class="cyrex-list-card"><div><strong>Cell Base</strong><span>Locked</span></div><p>Communal cell bases come later. Freeholds, Corporate facilities, allied access, and shared crafting will build from here.</p></article>
-  `;
-}
-
-function renderProfile() {
-  const profile = [["Name", state.name], ["Profession", labelProfession()], ["Affiliation", labelAffiliation()], ["Implant", labelImplant()], ["Level", state.level], ["XP", state.xp + " / " + state.level * 100], ["Credits", state.credits], ["Reputation", state.reputation], ["District", activeDistrict().title], ["Cybernetics", state.installedCybernetics.length], ["Profession Bonus", DATA.professions[state.profession].bonus], ["Affiliation Note", DATA.affiliations[state.affiliation].desc]];
-  el("profilePanel").innerHTML = profile.map(([label, value]) => `<div><span>${label}</span><strong>${value}</strong></div>`).join("");
-}
-
+function renderAll() { el("playerName").textContent = state.name; el("professionText").textContent = labelProfession(); el("affiliationText").textContent = labelAffiliation(); el("credits").textContent = state.credits; el("levelText").textContent = state.level; renderDistrictHero(); renderMeters(); renderFeed(); renderDistricts(); renderJobs(); renderInventory(); renderCrafting(); renderMarket(); renderSafehouse(); renderCybernetics(); renderCells(); renderProfile(); renderLog(); }
+function renderDistrictHero() { const d = activeDistrict(); const card = el("districtHeroCard"); if (card) card.style.backgroundImage = `linear-gradient(to bottom, rgba(0,0,0,.08), rgba(0,0,0,.24)), url("${d.image || MAPS.sector}")`; el("sceneTitle").textContent = d.title; el("sceneDesc").textContent = `${d.status}. Danger ${d.danger}. ${d.text}`; el("districtName").textContent = d.title; el("districtCopy").textContent = d.text; }
+function renderMeters() { [["health", state.health], ["energy", state.energy], ["humanity", state.humanity], ["heat", state.heat]].forEach(([k, v]) => { el(k + "Text").textContent = v + "%"; el(k + "Meter").value = v; }); }
+function renderFeed() { el("cityFeed").innerHTML = state.feed.map((item, i) => `<div class="cyrex-feed-item"><span>${i === 0 ? "LIVE" : "FEED"}</span><p>${item}</p></div>`).join(""); }
+function renderDistricts() { el("districtList").innerHTML = `<article class="cyrex-map-preview"><img src="${MAPS.sector}" alt="Sector One Overview"><div><strong>Sector One Overview</strong><span>Full sector map</span></div></article>` + DATA.districts.map((d) => `<article class="cyrex-list-card ${d.id === state.activeDistrict ? "selected" : ""}"><img class="cyrex-card-map" src="${d.image}" alt="${d.title} map"><div><strong>${d.title}</strong><span>${d.status}</span></div><p>${d.text}</p><small>Danger: ${d.danger} · Heat on entry: +${d.heat}</small><button data-district="${d.id}">${d.id === state.activeDistrict ? "Active" : "Travel"}</button></article>`).join(""); }
+function renderJobs() { el("jobsList").innerHTML = DATA.jobs.map((job) => { const done = state.completedJobs.includes(job.id); return `<article class="cyrex-list-card"><div><strong>${job.title}</strong><span>${job.type} · ${job.difficulty}</span></div><p>${job.text}</p><small>Reward: ${job.reward} cr · ${job.xp} XP · Energy ${job.energy}</small><button data-job="${job.id}" ${done ? "disabled" : ""}>${done ? "Completed" : "Take Job"}</button></article>`; }).join(""); }
+function renderInventory() { const entries = Object.entries(state.inventory); el("inventoryList").innerHTML = entries.length ? entries.map(([k, v]) => `<article class="cyrex-list-card compact"><strong>${formatItem(k)}</strong><span>x${v}</span></article>`).join("") : `<article class="cyrex-list-card"><p>No gear. No parts. Bad place to be.</p></article>`; }
+function renderCrafting() { el("craftingList").innerHTML = DATA.recipes.map((r) => { const can = state.credits >= r.creditCost && hasItems(r.requires); return `<article class="cyrex-list-card"><div><strong>${r.title}</strong><span>${r.creditCost} cr</span></div><p>Requires: ${formatRequirements(r.requires)}</p><small>Creates: ${formatRequirements(r.gives)}</small><button data-craft="${r.id}" ${can ? "" : "disabled"}>Craft</button></article>`; }).join(""); }
+function renderMarket() { el("marketList").innerHTML = DATA.market.map((item) => `<article class="cyrex-list-card"><div><strong>${item.title}</strong><span>${item.cost ? item.cost + " cr" : "+" + item.reward + " cr"}</span></div><button data-market="${item.id}">${item.cost ? "Buy" : "Sell"}</button></article>`).join(""); }
+function renderSafehouse() { el("safehouseList").innerHTML = DATA.safehouse.map((u) => { const owned = state.safehouseUpgrades.includes(u.id); const can = !owned && state.credits >= u.cost && hasItems(u.requires); return `<article class="cyrex-list-card"><div><strong>${u.title}</strong><span>${owned ? "Installed" : u.cost + " cr"}</span></div><p>${u.effect}</p><small>Requires: ${formatRequirements(u.requires)}</small><button data-upgrade="${u.id}" ${can ? "" : "disabled"}>${owned ? "Installed" : "Install"}</button></article>`; }).join(""); }
+function renderCybernetics() { el("cyberneticsList").innerHTML = DATA.cybernetics.map((c) => { const installed = state.installedCybernetics.includes(c.id); const cost = state.profession === "tech" ? Math.max(20, c.cost - 25) : c.cost; const can = !installed && state.credits >= cost && hasItems(c.requires) && state.humanity > c.humanity; return `<article class="cyrex-list-card ${installed ? "selected" : ""}"><div><strong>${c.title}</strong><span>${installed ? "Installed" : cost + " cr"}</span></div><p>${c.effect}</p><small>Humanity -${c.humanity} · Heat +${c.heat} · Requires: ${formatRequirements(c.requires)}</small><button data-cyber="${c.id}" ${can ? "" : "disabled"}>${installed ? "Installed" : "Install"}</button></article>`; }).join(""); }
+function renderCells() { const a = DATA.affiliations[state.affiliation]; el("cellsPanel").innerHTML = `<article class="cyrex-list-card"><div><strong>Current Standing</strong><span>${labelAffiliation()}</span></div><p>${a.desc}</p></article><article class="cyrex-list-card compact"><strong>Free Cell Standing</strong><span>${state.standing.free}</span></article><article class="cyrex-list-card compact"><strong>Corporate Cell Standing</strong><span>${state.standing.corporate}</span></article><article class="cyrex-list-card compact"><strong>M&P Standing</strong><span>${state.standing.mp}</span></article><article class="cyrex-list-card"><div><strong>Cell Base</strong><span>Locked</span></div><p>Communal cell bases come later. Freeholds, Corporate facilities, allied access, and shared crafting will build from here.</p></article>`; }
+function renderProfile() { const p = [["Name", state.name], ["Profession", labelProfession()], ["Affiliation", labelAffiliation()], ["Implant", labelImplant()], ["Level", state.level], ["XP", state.xp + " / " + state.level * 100], ["Credits", state.credits], ["Reputation", state.reputation], ["District", activeDistrict().title], ["Cybernetics", state.installedCybernetics.length], ["Profession Bonus", DATA.professions[state.profession].bonus], ["Affiliation Note", DATA.affiliations[state.affiliation].desc]]; el("profilePanel").innerHTML = p.map(([l, v]) => `<div><span>${l}</span><strong>${v}</strong></div>`).join(""); }
 function renderLog() { const log = el("log"); if (!log) return; log.innerHTML = state.log.map((msg) => `<p>${msg}</p>`).join(""); log.scrollTop = log.scrollHeight; }
 
-function runJob(jobId) {
-  const job = DATA.jobs.find((item) => item.id === jobId);
-  if (!job || state.completedJobs.includes(job.id)) return;
-  if (state.energy < job.energy) return addLog("<span class='warning'>Not enough energy for that job.</span>");
-  state.energy = clamp(state.energy - job.energy, 0, 100);
-  let reward = job.reward;
-  if (state.profession === "courier" && job.type === "Delivery") reward += 15;
-  if (state.profession === "bounty-hunter" && job.type === "Combat") reward += 20;
-  if (state.installedCybernetics.includes("splint") && job.type === "Combat") reward += 15;
-  if (state.installedCybernetics.includes("blackcore")) reward += 12;
-  state.credits += reward;
-  state.heat = clamp(state.heat + job.heat, 0, 100);
-  state.reputation += Math.round(job.xp / 4);
-  if (job.type === "Cell") state.standing.free += 6;
-  if (job.type === "Corporate") state.standing.corporate += 6;
-  if (["Delivery", "Recovery"].includes(job.type)) state.standing.mp += 2;
-  gainXp(job.xp);
-  Object.entries(job.materials).forEach(([key, val]) => addItem(key, val));
-  if (state.profession === "scavenger" && ["Recovery", "Survival"].includes(job.type)) addItem("scrap", 1);
-  if (state.profession === "data-runner" && job.type === "Data") addItem("circuit", 1);
-  state.completedJobs.push(job.id);
-  addFeed(`${job.title} completed by ${state.name}.`);
-  addLog(`<strong>JOB COMPLETE:</strong> ${job.title}. Paid ${reward} credits.`);
-  saveLocal(false);
-  renderAll();
-}
-
-function craftItem(recipeId) {
-  const recipe = DATA.recipes.find((item) => item.id === recipeId);
-  if (!recipe) return;
-  if (state.credits < recipe.creditCost || !spendItems(recipe.requires)) { addLog("<span class='warning'>Missing credits or materials.</span>"); renderAll(); return; }
-  state.credits -= recipe.creditCost;
-  Object.entries(recipe.gives).forEach(([key, val]) => addItem(key, val));
-  if (state.profession === "tech" && Math.random() > 0.5) addItem("scrap", 1);
-  addLog(`<strong>CRAFTED:</strong> ${recipe.title}.`);
-  saveLocal(false);
-  renderAll();
-}
-
-function useMarket(itemId) {
-  const item = DATA.market.find((entry) => entry.id === itemId);
-  if (!item) return;
-  if (item.cost) { if (state.credits < item.cost) return addLog("<span class='warning'>Not enough credits.</span>"); state.credits -= item.cost; Object.entries(item.gives).forEach(([key, val]) => addItem(key, val)); addLog(`<strong>MARKET:</strong> ${item.title}.`); }
-  else if (item.sell) { if (!spendItems(item.sell)) { addLog("<span class='warning'>You do not have the item to sell.</span>"); renderAll(); return; } state.credits += item.reward; addLog(`<strong>MARKET:</strong> Sale completed for ${item.reward} credits.`); }
-  saveLocal(false);
-  renderAll();
-}
-
-function installUpgrade(upgradeId) {
-  const upgrade = DATA.safehouse.find((item) => item.id === upgradeId);
-  if (!upgrade || state.safehouseUpgrades.includes(upgrade.id)) return;
-  if (state.credits < upgrade.cost || !spendItems(upgrade.requires)) { addLog("<span class='warning'>Missing credits or materials for upgrade.</span>"); renderAll(); return; }
-  state.credits -= upgrade.cost;
-  state.safehouseUpgrades.push(upgrade.id);
-  if (upgrade.id === "locker") state.reputation += 5;
-  if (upgrade.id === "jammer") state.heat = clamp(state.heat - 12, 0, 100);
-  addLog(`<strong>SAFEHOUSE:</strong> ${upgrade.title} installed.`);
-  saveLocal(false);
-  renderAll();
-}
-
-function installCyber(cyberId) {
-  const cyber = DATA.cybernetics.find((item) => item.id === cyberId);
-  if (!cyber || state.installedCybernetics.includes(cyber.id)) return;
-  const installCost = state.profession === "tech" ? Math.max(20, cyber.cost - 25) : cyber.cost;
-  if (state.credits < installCost || !spendItems(cyber.requires) || state.humanity <= cyber.humanity) { addLog("<span class='warning'>Install denied. Missing credits, parts, or humanity margin.</span>"); renderAll(); return; }
-  state.credits -= installCost;
-  state.humanity = clamp(state.humanity - cyber.humanity, 0, 100);
-  state.heat = clamp(state.heat + cyber.heat, 0, 100);
-  state.installedCybernetics.push(cyber.id);
-  addLog(`<strong>CYBERNETIC INSTALLED:</strong> ${cyber.title}. Humanity reduced.`);
-  addFeed(`${state.name} registered new chrome activity in ${activeDistrict().title}.`);
-  saveLocal(false);
-  renderAll();
-}
-
-function travelDistrict(districtId) {
-  const district = DATA.districts.find((d) => d.id === districtId);
-  if (!district) return;
-  state.activeDistrict = district.id;
-  state.energy = clamp(state.energy - 6, 0, 100);
-  state.heat = clamp(state.heat + district.heat, 0, 100);
-  addFeed(district.feed);
-  addLog(`<strong>TRAVEL:</strong> Entered ${district.title}.`);
-  saveLocal(false);
-  renderAll();
-}
-
-function handleAction(action) {
-  if (action === "enter-district") { switchPanel("district"); addLog("<strong>DISTRICT:</strong> " + activeDistrict().title + " opens under bad light."); }
-  if (action === "refresh-feed") { const variants = ["The Towers deny reports of forced relocations.", "M&P vendors raised prices after the lockdown.", "A Corporate Cell convoy moved through Sector Nine.", "Free Cell graffiti appeared on a Grid checkpoint.", "A clinic is buying trauma kits above market."]; addFeed(variants[Math.floor(Math.random() * variants.length)]); addLog("<strong>FEED:</strong> City feed refreshed."); }
-  if (action === "scavenge-run") { if (state.energy < 10) return addLog("<span class='warning'>Not enough energy.</span>"); const district = activeDistrict(); state.energy -= 10; Object.entries(district.resources).forEach(([key, val]) => addItem(key, val)); if (state.profession === "scavenger" || state.installedCybernetics.includes("grip")) addItem("scrap", 1); state.heat = clamp(state.heat + 3, 0, 100); gainXp(12); addLog("<strong>SCAVENGE:</strong> Materials recovered from " + district.title + "."); }
-  if (action === "scan-district") { if (state.profession === "data-runner" || state.installedCybernetics.includes("optic")) addItem("data_shard", 1); state.hasMap = true; addLog("<strong>SCAN:</strong> District map updated. Grid traffic looks wrong."); }
-  if (action === "visit-clinic") { const cost = state.profession === "medic" ? 18 : 30; if (state.credits < cost) return addLog("<span class='warning'>Clinic refused treatment. Not enough credits.</span>"); state.credits -= cost; state.health = clamp(state.health + 35, 0, 100); addLog(`<strong>CLINIC:</strong> Wounds patched. ${cost} credits gone.`); }
-  if (action === "rest-cycle") { state.energy = clamp(state.energy + 30, 0, 100); state.health = clamp(state.health + (state.safehouseUpgrades.includes("medshelf") ? 20 : 10), 0, 100); addLog("<strong>REST:</strong> You sleep in fragments. The city keeps moving."); }
-  if (action === "save-game") saveLocal(true);
-  if (action === "reset-game") resetGame();
-  renderAll();
-}
-
+function runJob(id) { const job = DATA.jobs.find((j) => j.id === id); if (!job || state.completedJobs.includes(job.id)) return; if (state.energy < job.energy) return addLog("<span class='warning'>Not enough energy for that job.</span>"); state.energy = clamp(state.energy - job.energy, 0, 100); let reward = job.reward; if (state.profession === "courier" && job.type === "Delivery") reward += 15; if (state.profession === "bounty-hunter" && job.type === "Combat") reward += 20; if (state.installedCybernetics.includes("splint") && job.type === "Combat") reward += 15; if (state.installedCybernetics.includes("blackcore")) reward += 12; state.credits += reward; state.heat = clamp(state.heat + job.heat, 0, 100); state.reputation += Math.round(job.xp / 4); if (job.type === "Cell") state.standing.free += 6; if (job.type === "Corporate") state.standing.corporate += 6; if (["Delivery", "Recovery"].includes(job.type)) state.standing.mp += 2; gainXp(job.xp); Object.entries(job.materials).forEach(([k, v]) => addItem(k, v)); if (state.profession === "scavenger" && ["Recovery", "Survival"].includes(job.type)) addItem("scrap", 1); if (state.profession === "data-runner" && job.type === "Data") addItem("circuit", 1); state.completedJobs.push(job.id); addFeed(`${job.title} completed by ${state.name}.`); addLog(`<strong>JOB COMPLETE:</strong> ${job.title}. Paid ${reward} credits.`); saveLocal(false); renderAll(); }
+function craftItem(id) { const r = DATA.recipes.find((x) => x.id === id); if (!r) return; if (state.credits < r.creditCost || !spendItems(r.requires)) { addLog("<span class='warning'>Missing credits or materials.</span>"); renderAll(); return; } state.credits -= r.creditCost; Object.entries(r.gives).forEach(([k, v]) => addItem(k, v)); if (state.profession === "tech" && Math.random() > 0.5) addItem("scrap", 1); addLog(`<strong>CRAFTED:</strong> ${r.title}.`); saveLocal(false); renderAll(); }
+function useMarket(id) { const item = DATA.market.find((x) => x.id === id); if (!item) return; if (item.cost) { if (state.credits < item.cost) return addLog("<span class='warning'>Not enough credits.</span>"); state.credits -= item.cost; Object.entries(item.gives).forEach(([k, v]) => addItem(k, v)); addLog(`<strong>MARKET:</strong> ${item.title}.`); } else if (item.sell) { if (!spendItems(item.sell)) { addLog("<span class='warning'>You do not have the item to sell.</span>"); renderAll(); return; } state.credits += item.reward; addLog(`<strong>MARKET:</strong> Sale completed for ${item.reward} credits.`); } saveLocal(false); renderAll(); }
+function installUpgrade(id) { const u = DATA.safehouse.find((x) => x.id === id); if (!u || state.safehouseUpgrades.includes(u.id)) return; if (state.credits < u.cost || !spendItems(u.requires)) { addLog("<span class='warning'>Missing credits or materials for upgrade.</span>"); renderAll(); return; } state.credits -= u.cost; state.safehouseUpgrades.push(u.id); if (u.id === "locker") state.reputation += 5; if (u.id === "jammer") state.heat = clamp(state.heat - 12, 0, 100); addLog(`<strong>SAFEHOUSE:</strong> ${u.title} installed.`); saveLocal(false); renderAll(); }
+function installCyber(id) { const c = DATA.cybernetics.find((x) => x.id === id); if (!c || state.installedCybernetics.includes(c.id)) return; const cost = state.profession === "tech" ? Math.max(20, c.cost - 25) : c.cost; if (state.credits < cost || !spendItems(c.requires) || state.humanity <= c.humanity) { addLog("<span class='warning'>Install denied. Missing credits, parts, or humanity margin.</span>"); renderAll(); return; } state.credits -= cost; state.humanity = clamp(state.humanity - c.humanity, 0, 100); state.heat = clamp(state.heat + c.heat, 0, 100); state.installedCybernetics.push(c.id); addLog(`<strong>CYBERNETIC INSTALLED:</strong> ${c.title}. Humanity reduced.`); addFeed(`${state.name} registered new chrome activity in ${activeDistrict().title}.`); saveLocal(false); renderAll(); }
+function travelDistrict(id) { const d = DATA.districts.find((x) => x.id === id); if (!d) return; state.activeDistrict = d.id; state.energy = clamp(state.energy - 6, 0, 100); state.heat = clamp(state.heat + d.heat, 0, 100); addFeed(d.feed); addLog(`<strong>TRAVEL:</strong> Entered ${d.title}.`); saveLocal(false); renderAll(); }
+function handleAction(action) { if (action === "enter-district") { switchPanel("district"); addLog("<strong>DISTRICT:</strong> " + activeDistrict().title + " opens under bad light."); } if (action === "refresh-feed") { const v = ["The Towers deny reports of forced relocations.", "M&P vendors raised prices after the lockdown.", "A Corporate Cell convoy moved through Sector Nine.", "Free Cell graffiti appeared on a Grid checkpoint.", "A clinic is buying trauma kits above market."]; addFeed(v[Math.floor(Math.random() * v.length)]); addLog("<strong>FEED:</strong> City feed refreshed."); } if (action === "scavenge-run") { if (state.energy < 10) return addLog("<span class='warning'>Not enough energy.</span>"); const d = activeDistrict(); state.energy -= 10; Object.entries(d.resources).forEach(([k, v]) => addItem(k, v)); if (state.profession === "scavenger" || state.installedCybernetics.includes("grip")) addItem("scrap", 1); state.heat = clamp(state.heat + 3, 0, 100); gainXp(12); addLog("<strong>SCAVENGE:</strong> Materials recovered from " + d.title + "."); } if (action === "scan-district") { if (state.profession === "data-runner" || state.installedCybernetics.includes("optic")) addItem("data_shard", 1); state.hasMap = true; addLog("<strong>SCAN:</strong> District map updated. Grid traffic looks wrong."); } if (action === "visit-clinic") { const cost = state.profession === "medic" ? 18 : 30; if (state.credits < cost) return addLog("<span class='warning'>Clinic refused treatment. Not enough credits.</span>"); state.credits -= cost; state.health = clamp(state.health + 35, 0, 100); addLog(`<strong>CLINIC:</strong> Wounds patched. ${cost} credits gone.`); } if (action === "rest-cycle") { state.energy = clamp(state.energy + 30, 0, 100); state.health = clamp(state.health + (state.safehouseUpgrades.includes("medshelf") ? 20 : 10), 0, 100); addLog("<strong>REST:</strong> You sleep in fragments. The city keeps moving."); } if (action === "save-game") saveLocal(true); if (action === "reset-game") resetGame(); renderAll(); }
 function switchPanel(panel) { document.querySelectorAll(".cyrex-panel").forEach((item) => item.classList.toggle("is-active", item.dataset.panel === panel)); document.querySelectorAll(".cyrex-tabs button").forEach((item) => item.classList.toggle("is-active", item.dataset.tab === panel)); }
 function saveLocal(showLog = true) { localStorage.setItem(SAVE_KEY, JSON.stringify(state)); if (showLog) addLog("<strong>SAVE:</strong> Local progress saved. Supabase cloud save comes later."); }
-function loadLocal() { const raw = localStorage.getItem(SAVE_KEY) || localStorage.getItem("cyrex_sector_one_v02"); if (!raw) { alert("No local Cyrex save found yet."); return; } state = { ...getNewState(), ...JSON.parse(raw) }; state.standing = { ...getNewState().standing, ...(state.standing || {}) }; state.installedCybernetics = state.installedCybernetics || []; state.activeDistrict = state.activeDistrict || "grayline"; createScreenEl.style.display = "none"; gameScreenEl.style.display = "grid"; addLog("<strong>LOAD:</strong> Local save restored."); renderAll(); }
+function loadLocal() { const raw = localStorage.getItem(SAVE_KEY) || localStorage.getItem("cyrex_sector_one_v02\中); if (!raw) { alert("No local Cyrex save found yet."); return; } state = { ...getNewState(), ...JSON.parse(raw) }; state.standing = { ...getNewState().standing, ...(state.standing || {}) }; state.installedCybernetics = state.installedCybernetics || []; state.activeDistrict = state.activeDistrict || "grayline"; createScreenEl.style.display = "none"; gameScreenEl.style.display = "grid"; addLog("<strong>LOAD:</strong> Local save restored."); renderAll(); }
 function resetGame() { localStorage.removeItem(SAVE_KEY); localStorage.removeItem("cyrex_sector_one_v02"); window.location.reload(); }
 
 startGameButtonEl.addEventListener("click", startGame);
 loadGameButtonEl.addEventListener("click", loadLocal);
-
-document.addEventListener("click", (event) => {
-  const tab = event.target.closest("[data-tab]"); if (tab) switchPanel(tab.dataset.tab);
-  const action = event.target.closest("[data-action]"); if (action) handleAction(action.dataset.action);
-  const district = event.target.closest("[data-district]"); if (district) travelDistrict(district.dataset.district);
-  const job = event.target.closest("[data-job]"); if (job) runJob(job.dataset.job);
-  const craft = event.target.closest("[data-craft]"); if (craft) craftItem(craft.dataset.craft);
-  const market = event.target.closest("[data-market]"); if (market) useMarket(market.dataset.market);
-  const upgrade = event.target.closest("[data-upgrade]"); if (upgrade) installUpgrade(upgrade.dataset.upgrade);
-  const cyber = event.target.closest("[data-cyber]"); if (cyber) installCyber(cyber.dataset.cyber);
-});
+document.addEventListener("click", (event) => { const tab = event.target.closest("[data-tab]"); if (tab) switchPanel(tab.dataset.tab); const action = event.target.closest("[data-action]"); if (action) handleAction(action.dataset.action); const district = event.target.closest("[data-district]"); if (district) travelDistrict(district.dataset.district); const job = event.target.closest("[data-job]"); if (job) runJob(job.dataset.job); const craft = event.target.closest("[data-craft]"); if (craft) craftItem(craft.dataset.craft); const market = event.target.closest("[data-market]"); if (market) useMarket(market.dataset.market); const upgrade = event.target.closest("[data-upgrade]"); if (upgrade) installUpgrade(upgrade.dataset.upgrade); const cyber = event.target.closest("[data-cyber]"); if (cyber) installCyber(cyber.dataset.cyber); });
