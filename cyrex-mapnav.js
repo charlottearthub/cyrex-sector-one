@@ -4,38 +4,38 @@
   let mapMode='sector';
 
   const sectorLocations=[
-    {id:'grayline',label:'Grayline',x:'45%',y:'31%',icon:'⌖',desc:'Transit lockdown, clinics, blocks, and lower-stack trouble.'},
-    {id:'dock12',label:'Dock 12',x:'64%',y:'67%',icon:'⇣',desc:'Industrial port, cargo lanes, cores, freight, and customs gates.'},
-    {id:'blackrow',label:'Black Row',x:'25%',y:'71%',icon:'◆',desc:'Undercity market access. Buy, sell, vanish, or get noticed.'},
-    {id:'clinic',label:'Clinic',x:'56%',y:'82%',icon:'✚',desc:'Medical quarter. Recovery, chrome work, and quiet debts.'}
+    {id:'grayline',label:'Grayline District',x:'50%',y:'31%',w:'42%',h:'28%',desc:'Transit lockdown, clinics, blocks, and lower-stack trouble.'},
+    {id:'dock12',label:'Dock 12',x:'63%',y:'64%',w:'36%',h:'30%',desc:'Industrial port, cargo lanes, cores, freight, and customs gates.'},
+    {id:'blackrow',label:'Black Market Row',x:'30%',y:'67%',w:'34%',h:'30%',desc:'Undercity market access. Buy, sell, vanish, or get noticed.'},
+    {id:'clinic',label:'Clinic Quarter',x:'55%',y:'84%',w:'36%',h:'22%',desc:'Medical quarter. Recovery, chrome work, and quiet debts.'}
   ];
 
   const districtLocations={
     grayline:[
-      {id:'gray-clinic',label:'Clinic',x:'32%',y:'49%',icon:'✚',desc:'Patch wounds and recover health.',actions:[['Visit Clinic','visit-clinic'],['Scan Area','scan-district']]},
-      {id:'gray-contracts',label:'Contracts',x:'28%',y:'36%',icon:'!',desc:'Local work, small jobs, ugly favors.',tabs:[['Open Jobs','jobs']]},
-      {id:'gray-transit',label:'Transit',x:'54%',y:'62%',icon:'⌖',desc:'Locked transit artery through the district.',actions:[['Scan Transit','scan-district'],['Scavenge','scavenge-run']]},
-      {id:'gray-safehouse',label:'Safehouse',x:'63%',y:'76%',icon:'⌂',desc:'Your room in the Lower Stack.',tabs:[['Enter House','safehouse']]}
+      {id:'gray-clinic',label:'Clinic',x:'34%',y:'48%',w:'28%',h:'16%',desc:'Patch wounds and recover health.',actions:[['Visit Clinic','visit-clinic'],['Scan Area','scan-district']]},
+      {id:'gray-contracts',label:'Contracts',x:'35%',y:'34%',w:'30%',h:'15%',desc:'Local work, small jobs, ugly favors.',tabs:[['Open Jobs','jobs']]},
+      {id:'gray-transit',label:'Transit Spine',x:'55%',y:'61%',w:'30%',h:'18%',desc:'Locked transit artery through the district.',actions:[['Scan Transit','scan-district'],['Scavenge','scavenge-run']]},
+      {id:'gray-safehouse',label:'Housing / Safehouse',x:'60%',y:'22%',w:'32%',h:'18%',desc:'Your room in the Lower Stack.',tabs:[['Enter House','safehouse']]}
     ],
     dock12:[
-      {id:'dock-cargo',label:'Cargo Spine',x:'47%',y:'26%',icon:'⇣',desc:'Main cargo spine. Good for scans and courier work.',actions:[['Scan Cargo','scan-district']],tabs:[['Jobs','jobs']]},
-      {id:'dock-crane',label:'Crane Yard',x:'32%',y:'39%',icon:'⚒',desc:'Scrap, freight chains, broken loaders.',actions:[['Scavenge Yard','scavenge-run'],['Scan Yard','scan-district']]},
-      {id:'dock-core',label:'Core Warehouse',x:'50%',y:'52%',icon:'⚡',desc:'Power core storage and stolen industrial parts.',actions:[['Scavenge Cores','scavenge-run'],['Scan Warehouse','scan-district']]},
-      {id:'dock-smuggler',label:'Smuggler Pier',x:'79%',y:'46%',icon:'▣',desc:'Black freight moves through here.',tabs:[['Market','market'],['Jobs','jobs']]},
-      {id:'dock-customs',label:'Customs Gate',x:'29%',y:'62%',icon:'▨',desc:'Corporate checkpoints and search lights.',actions:[['Scan Gate','scan-district']],tabs:[['Jobs','jobs']]},
-      {id:'dock-safehouse',label:'Safehouse',x:'52%',y:'83%',icon:'⌂',desc:'A hidden room near the freight lifts.',tabs:[['Enter House','safehouse']]}
+      {id:'dock-cargo',label:'Cargo Spine',x:'50%',y:'25%',w:'36%',h:'16%',desc:'Main cargo spine. Good for scans and courier work.',actions:[['Scan Cargo','scan-district']],tabs:[['Jobs','jobs']]},
+      {id:'dock-crane',label:'Crane Yard',x:'32%',y:'39%',w:'30%',h:'16%',desc:'Scrap, freight chains, broken loaders.',actions:[['Scavenge Yard','scavenge-run'],['Scan Yard','scan-district']]},
+      {id:'dock-core',label:'Power Core Warehouse',x:'50%',y:'52%',w:'40%',h:'18%',desc:'Power core storage and stolen industrial parts.',actions:[['Scavenge Cores','scavenge-run'],['Scan Warehouse','scan-district']]},
+      {id:'dock-smuggler',label:'Smuggler Pier',x:'78%',y:'46%',w:'34%',h:'18%',desc:'Black freight moves through here.',tabs:[['Market','market'],['Jobs','jobs']]},
+      {id:'dock-customs',label:'Customs Gate',x:'30%',y:'63%',w:'32%',h:'17%',desc:'Corporate checkpoints and search lights.',actions:[['Scan Gate','scan-district']],tabs:[['Jobs','jobs']]},
+      {id:'dock-safehouse',label:'Safehouse',x:'52%',y:'82%',w:'32%',h:'16%',desc:'A hidden room near the freight lifts.',tabs:[['Enter House','safehouse']]}
     ],
     blackrow:[
-      {id:'row-market',label:'Market',x:'50%',y:'48%',icon:'◆',desc:'Buy, sell, trade, and disappear.',tabs:[['Open Market','market']]},
-      {id:'row-cyber',label:'Chrome Stall',x:'66%',y:'37%',icon:'◉',desc:'Body work with bad warranties.',tabs:[['Cybernetics','cybernetics']]},
-      {id:'row-jobs',label:'Fixer Table',x:'35%',y:'36%',icon:'!',desc:'Contracts paid in credits and risk.',tabs:[['Jobs','jobs']]},
-      {id:'row-scan',label:'Grid Echo',x:'61%',y:'72%',icon:'◎',desc:'Signal traffic and hidden data.',actions:[['Scan Echo','scan-district'],['Scavenge','scavenge-run']]}
+      {id:'row-market',label:'Market',x:'50%',y:'48%',w:'42%',h:'24%',desc:'Buy, sell, trade, and disappear.',tabs:[['Open Market','market']]},
+      {id:'row-cyber',label:'Chrome Stall',x:'66%',y:'36%',w:'30%',h:'18%',desc:'Body work with bad warranties.',tabs:[['Cybernetics','cybernetics']]},
+      {id:'row-jobs',label:'Fixer Table',x:'35%',y:'36%',w:'30%',h:'18%',desc:'Contracts paid in credits and risk.',tabs:[['Jobs','jobs']]},
+      {id:'row-scan',label:'Grid Echo',x:'60%',y:'72%',w:'35%',h:'18%',desc:'Signal traffic and hidden data.',actions:[['Scan Echo','scan-district'],['Scavenge','scavenge-run']]}
     ],
     clinic:[
-      {id:'clinic-main',label:'Clinic',x:'50%',y:'42%',icon:'✚',desc:'Patch wounds. Pay now. Owe later.',actions:[['Visit Clinic','visit-clinic']]},
-      {id:'clinic-rest',label:'Recovery',x:'65%',y:'66%',icon:'☾',desc:'Rest cycle and recovery bay.',actions:[['Rest Cycle','rest-cycle']]},
-      {id:'clinic-supply',label:'Supply Closet',x:'32%',y:'67%',icon:'◇',desc:'Useful supplies if nobody is watching.',actions:[['Scavenge Supplies','scavenge-run'],['Scan Closet','scan-district']]},
-      {id:'clinic-work',label:'Clinic Jobs',x:'30%',y:'31%',icon:'!',desc:'Small medical delivery work.',tabs:[['Jobs','jobs']]}
+      {id:'clinic-main',label:'Clinic',x:'50%',y:'42%',w:'38%',h:'22%',desc:'Patch wounds. Pay now. Owe later.',actions:[['Visit Clinic','visit-clinic']]},
+      {id:'clinic-rest',label:'Recovery Block',x:'65%',y:'66%',w:'32%',h:'18%',desc:'Rest cycle and recovery bay.',actions:[['Rest Cycle','rest-cycle']]},
+      {id:'clinic-supply',label:'Supply Closet',x:'32%',y:'67%',w:'30%',h:'18%',desc:'Useful supplies if nobody is watching.',actions:[['Scavenge Supplies','scavenge-run'],['Scan Closet','scan-district']]},
+      {id:'clinic-work',label:'Clinic Jobs',x:'30%',y:'31%',w:'30%',h:'18%',desc:'Small medical delivery work.',tabs:[['Jobs','jobs']]}
     ]
   };
 
@@ -46,9 +46,9 @@
   function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 
   function hotspot(h){
-    const cls='cyrex-map-hotspot'+(h.id===activeId()?' active':'');
+    const cls='cyrex-map-tapzone'+(h.id===activeId()?' active':'');
     const data=h.id&&mapMode==='sector'?`data-map-district="${h.id}"`:`data-map-location="${h.id}"`;
-    return `<button class="${cls}" aria-label="${esc(h.label)}" title="${esc(h.label)}" style="--x:${h.x};--y:${h.y}" ${data}><span class="cyrex-map-symbol">${h.icon||'•'}</span><strong>${esc(h.label)}</strong></button>`;
+    return `<button class="${cls}" aria-label="${esc(h.label)}" title="${esc(h.label)}" style="--x:${h.x};--y:${h.y};--w:${h.w};--h:${h.h}" ${data}><span>${esc(h.label)}</span></button>`;
   }
 
   function closeLocationPanel(){
@@ -65,7 +65,7 @@
     const panel=document.createElement('section');
     panel.className='cyrex-map-location-panel';
     panel.id='cyrexMapLocationPanel';
-    panel.innerHTML=`<div class="cyrex-map-location-head"><strong>${esc(loc.icon)} ${esc(loc.label)}</strong><button type="button" data-map-panel-close>×</button></div><p>${esc(loc.desc)}</p><div class="cyrex-map-location-actions">${actions}${tabs}</div>`;
+    panel.innerHTML=`<div class="cyrex-map-location-head"><strong>${esc(loc.label)}</strong><button type="button" data-map-panel-close>×</button></div><p>${esc(loc.desc)}</p><div class="cyrex-map-location-actions">${actions}${tabs}</div>`;
     const shell=document.querySelector('.cyrex-map-shell');
     if(shell)shell.appendChild(panel);
   }
