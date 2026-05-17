@@ -26,14 +26,14 @@
       {id:'dock-safehouse',label:'Safehouse',x:'52%',y:'82%',w:'40%',h:'22%',desc:'A hidden room near the freight lifts.',tabs:[['Enter House','safehouse']]}
     ],
     blackrow:[
-      {id:'row-auction',label:'Auction Hall',x:'48%',y:'28%',w:'40%',h:'19%',desc:'A loud room for silent bids. Rare parts, stolen art, dead men’s gear.',tabs:[['Open Market','market']],actions:[['Scan Lots','scan-district']]},
-      {id:'row-implant',label:'Implant Chop Shop',x:'80%',y:'33%',w:'40%',h:'22%',desc:'Cheap chrome. Bad anesthesia. Worse paperwork.',tabs:[['Cybernetics','cybernetics']],actions:[['Scan Shop','scan-district']]},
-      {id:'row-arcade',label:'Contraband Arcade',x:'78%',y:'53%',w:'42%',h:'22%',desc:'Games, dead drops, illegal rigs, and dirty credit sinks.',tabs:[['Open Market','market'],['Jobs','jobs']]},
-      {id:'row-data',label:'Data Tunnel',x:'22%',y:'69%',w:'38%',h:'21%',desc:'A hidden network crawl under the market grid.',actions:[['Scan Tunnel','scan-district'],['Scavenge Data','scavenge-run']]},
-      {id:'row-ghost',label:'Ghost Stair',x:'48%',y:'70%',w:'38%',h:'22%',desc:'Old access stairs used by runners, fixers, and people who do not want cameras.',actions:[['Scavenge Stairs','scavenge-run']],tabs:[['Jobs','jobs']]},
-      {id:'row-safehouse',label:'Safehouse',x:'79%',y:'80%',w:'38%',h:'21%',desc:'A hidden room off the lower market routes.',tabs:[['Enter House','safehouse']]},
-      {id:'row-undercity',label:'Undercity Gate',x:'50%',y:'92%',w:'44%',h:'16%',desc:'The lower access gate. Everything gets worse below this line.',tabs:[['Jobs','jobs']],actions:[['Scan Gate','scan-district']]},
-      {id:'row-den',label:'Runner Den',x:'7%',y:'48%',w:'28%',h:'32%',desc:'A half-hidden den on the left edge of the row. Runners, smugglers, and bad leads.',tabs:[['Jobs','jobs']],actions:[['Scavenge Den','scavenge-run']]}
+      {id:'row-auction',label:'Auction Hall',x:'45%',y:'28%',w:'27%',h:'14%',desc:'A loud room for silent bids. Rare parts, stolen art, dead men’s gear.',tabs:[['Open Market','market']],actions:[['Scan Lots','scan-district']]},
+      {id:'row-implant',label:'Implant Chop Shop',x:'79%',y:'33%',w:'29%',h:'16%',desc:'Cheap chrome. Bad anesthesia. Worse paperwork.',tabs:[['Cybernetics','cybernetics']],actions:[['Scan Shop','scan-district']]},
+      {id:'row-arcade',label:'Contraband Arcade',x:'79%',y:'54%',w:'31%',h:'16%',desc:'Games, dead drops, illegal rigs, and dirty credit sinks.',tabs:[['Open Market','market'],['Jobs','jobs']]},
+      {id:'row-data',label:'Data Tunnel',x:'18%',y:'70%',w:'28%',h:'15%',desc:'A hidden network crawl under the market grid.',actions:[['Scan Tunnel','scan-district'],['Scavenge Data','scavenge-run']]},
+      {id:'row-ghost',label:'Ghost Stair',x:'45%',y:'71%',w:'28%',h:'15%',desc:'Old access stairs used by runners, fixers, and people who do not want cameras.',actions:[['Scavenge Stairs','scavenge-run']],tabs:[['Jobs','jobs']]},
+      {id:'row-safehouse',label:'Safehouse',x:'77%',y:'81%',w:'28%',h:'15%',desc:'A hidden room off the lower market routes.',tabs:[['Enter House','safehouse']]},
+      {id:'row-undercity',label:'Undercity Gate',x:'51%',y:'93%',w:'34%',h:'12%',desc:'The lower access gate. Everything gets worse below this line.',tabs:[['Jobs','jobs']],actions:[['Scan Gate','scan-district']]},
+      {id:'row-den',label:'Fixer Den',x:'13%',y:'50%',w:'29%',h:'18%',desc:'A half-hidden den on the left edge of the row. Runners, smugglers, and bad leads.',tabs:[['Jobs','jobs']],actions:[['Scavenge Den','scavenge-run']]}
     ],
     clinic:[
       {id:'clinic-main',label:'Clinic',x:'50%',y:'42%',w:'44%',h:'28%',desc:'Patch wounds. Pay now. Owe later.',actions:[['Visit Clinic','visit-clinic']]},
