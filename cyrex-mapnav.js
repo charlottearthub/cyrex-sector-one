@@ -50,12 +50,6 @@
   function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
   function pct(v){return parseFloat(String(v).replace('%',''))||0}
 
-  function hotspot(h){
-    const cls='cyrex-map-tapzone'+(h.id===activeId()?' active':'');
-    const data=h.id&&mapMode==='sector'?`data-map-district="${h.id}"`:`data-map-location="${h.id}"`;
-    return `<button class="${cls}" aria-label="${esc(h.label)}" title="${esc(h.label)}" style="--x:${h.x};--y:${h.y};--w:${h.w};--h:${h.h}" ${data}><span>${esc(h.label)}</span></button>`;
-  }
-
   function closeLocationPanel(){
     const old=document.getElementById('cyrexMapLocationPanel');
     if(old)old.remove();
@@ -87,41 +81,83 @@
     showLocationPanel(p.id);
   }
 
-  function activateNearestFromEvent(e){
-    if(e.target.closest('[data-map-exit], .cyrex-map-location-panel'))return false;
+  function imageBounds(img){
+    const r=img.getBoundingClientRect();
+    const iw=img.naturalWidth||3;
+    const ih=img.naturalHeight||4;
+    const ir=iw/ih;
+    const br=r.width/r.height;
+    let w,h,left,top;
+    if(br>ir){h=r.height;w=h*ir;left=r.left+(r.width-w)/2;top=r.top}else{w=r.width;h=w/ir;left=r.left;top=r.top+(r.height-h)/2}
+    return{left,top,width:w,height:h};
+  }
+
+  function positionTapLayer(){
+    const img=document.querySelector('.cyrex-map-image');
+    const layer=document.querySelector('.cyrex-map-tap-layer');
     const stage=document.querySelector('.cyrex-map-stage');
-    if(!stage)return false;
-    const rect=stage.getBoundingClientRect();
+    if(!img||!layer||!stage)return;
+    const b=imageBounds(img);
+    const s=stage.getBoundingClientRect();
+    layer.style.left=(b.left-s.left)+'px';
+    layer.style.top=(b.top-s.top)+'px';
+    layer.style.width=b.width+'px';
+    layer.style.height=b.height+'px';
+  }
+
+  function nearestFromEvent(e){
+    const img=document.querySelector('.cyrex-map-image');
+    if(!img)return null;
+    const b=imageBounds(img);
     const clientX=e.clientX ?? (e.changedTouches&&e.changedTouches[0]&&e.changedTouches[0].clientX);
     const clientY=e.clientY ?? (e.changedTouches&&e.changedTouches[0]&&e.changedTouches[0].clientY);
-    if(clientX==null||clientY==null)return false;
-    const x=((clientX-rect.left)/rect.width)*100;
-    const y=((clientY-rect.top)/rect.height)*100;
-    let best=null;
-    let bestScore=999999;
+    if(clientX==null||clientY==null)return null;
+    const x=((clientX-b.left)/b.width)*100;
+    const y=((clientY-b.top)/b.height)*100;
+    let best=null,bestScore=999999;
     points().forEach(function(p){
-      const px=pct(p.x), py=pct(p.y), hw=pct(p.w)/2, hh=pct(p.h)/2;
-      const dx=Math.abs(x-px), dy=Math.abs(y-py);
-      const inside=dx<=hw && dy<=hh;
+      const px=pct(p.x),py=pct(p.y),hw=pct(p.w)/2,hh=pct(p.h)/2;
+      const dx=Math.abs(x-px),dy=Math.abs(y-py);
+      const inside=dx<=hw&&dy<=hh;
       const score=(inside?0:10000)+(dx*dx)+(dy*dy);
-      if(score<bestScore){best=p;bestScore=score;}
+      if(score<bestScore){best=p;bestScore=score}
     });
-    if(best){
-      activatePoint(best);
-      return true;
-    }
+    return best;
+  }
+
+  function activateNearestFromEvent(e){
+    if(e.target.closest('[data-map-exit], .cyrex-map-location-panel'))return false;
+    const best=nearestFromEvent(e);
+    if(best){activatePoint(best);return true}
     return false;
+  }
+
+  function renderZone(p){
+    const data=p.id&&mapMode==='sector'?`data-map-district="${p.id}"`:`data-map-location="${p.id}"`;
+    return `<button class="cyrex-map-tapzone" aria-label="${esc(p.label)}" title="${esc(p.label)}" style="--x:${p.x};--y:${p.y};--w:${p.w};--h:${p.h}" ${data}><span>${esc(p.label)}</span></button>`;
   }
 
   function renderMapNav(){
     const list=$('districtList');
     if(!list||typeof MAPS==='undefined')return;
+    closeLocationPanel();
     const returnLabel=mapMode==='sector'?'EXIT MAP':'SECTOR MAP';
-    list.innerHTML=`<section class="cyrex-map-shell"><button type="button" class="cyrex-map-exit" data-map-exit>${returnLabel}</button><div class="cyrex-map-title">${esc(mapTitle())}</div><div class="cyrex-map-viewport"><div class="cyrex-map-stage" data-map-surface style="--map-url:url('${mapSrc()}')"><div class="cyrex-map-image" aria-label="${esc(mapTitle())}"></div>${points().map(hotspot).join('')}</div></div></section>`;
+    const src=mapSrc();
+    list.innerHTML=`<section class="cyrex-map-shell" data-map-key="${esc(mapMode+'-'+activeId())}"><button type="button" class="cyrex-map-exit" data-map-exit>${returnLabel}</button><div class="cyrex-map-title">${esc(mapTitle())}</div><div class="cyrex-map-viewport"><div class="cyrex-map-stage" data-map-surface><img class="cyrex-map-image" src="${src}" alt="${esc(mapTitle())}"><div class="cyrex-map-tap-layer">${points().map(renderZone).join('')}</div></div></div></section>`;
+    const img=document.querySelector('.cyrex-map-image');
+    if(img){
+      img.onload=function(){positionTapLayer()};
+      if(img.complete)setTimeout(positionTapLayer,30);
+    }
+    setTimeout(positionTapLayer,80);
+    setTimeout(positionTapLayer,260);
   }
 
   const oldRenderAll=window.renderAll||renderAll;
   window.renderAll=function(){oldRenderAll();renderMapNav()};
+
+  window.addEventListener('resize',function(){setTimeout(positionTapLayer,40)});
+  window.addEventListener('orientationchange',function(){setTimeout(positionTapLayer,250)});
 
   document.addEventListener('click',function(e){
     const exit=e.target.closest('[data-map-exit]');
@@ -141,27 +177,21 @@
     const tab=e.target.closest('[data-map-panel-tab]');
     if(tab){if(typeof switchPanel==='function')switchPanel(tab.dataset.mapPanelTab);return}
     const district=e.target.closest('[data-map-district]');
-    if(district){
-      const p=sectorLocations.find(x=>x.id===district.dataset.mapDistrict);
-      activatePoint(p);
-      return;
-    }
+    if(district){activatePoint(sectorLocations.find(x=>x.id===district.dataset.mapDistrict));return}
     const loc=e.target.closest('[data-map-location]');
-    if(loc){
-      const p=(districtLocations[activeId()]||[]).find(x=>x.id===loc.dataset.mapLocation);
-      activatePoint(p);
-      return;
-    }
-    if(e.target.closest('[data-map-surface], .cyrex-map-image, .cyrex-map-tapzone')){
-      activateNearestFromEvent(e);
-    }
+    if(loc){activatePoint((districtLocations[activeId()]||[]).find(x=>x.id===loc.dataset.mapLocation));return}
+    if(e.target.closest('[data-map-surface], .cyrex-map-image, .cyrex-map-tap-layer'))activateNearestFromEvent(e);
   });
 
   document.addEventListener('touchend',function(e){
     if(e.target.closest('[data-map-exit], .cyrex-map-location-panel'))return;
-    if(e.target.closest('[data-map-surface], .cyrex-map-image, .cyrex-map-tapzone')){
+    if(e.target.closest('[data-map-surface], .cyrex-map-image, .cyrex-map-tap-layer, .cyrex-map-tapzone')){
       e.preventDefault();
-      activateNearestFromEvent(e);
+      const zone=e.target.closest('[data-map-district], [data-map-location]');
+      if(zone){
+        if(zone.dataset.mapDistrict)activatePoint(sectorLocations.find(x=>x.id===zone.dataset.mapDistrict));
+        if(zone.dataset.mapLocation)activatePoint((districtLocations[activeId()]||[]).find(x=>x.id===zone.dataset.mapLocation));
+      }else activateNearestFromEvent(e);
     }
   },{passive:false});
 
